@@ -295,18 +295,18 @@ def generate_email_summary_thread(differences, summary_text, full_arguments):
     print(email_summary)
     print()
 
-import uvicorn
-import asyncio
+# import uvicorn
+# import asyncio
 
-nest_asyncio.apply()
+# nest_asyncio.apply()
 
-# Check if the event loop is already running
-if __name__ == "__main__":
-    if asyncio.get_event_loop().is_running():
-        # Use a new event loop
-        config = uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="debug")
-        server = uvicorn.Server(config)
-        asyncio.create_task(server.serve())
-    else:
-        # Use the default asyncio run method
-        uvicorn.run(app, host="0.0.0.0", port=8000)
+# # Check if the event loop is already running
+# if __name__ == "__main__":
+#     if asyncio.get_event_loop().is_running():
+#         # Use a new event loop
+#         config = uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="debug")
+#         server = uvicorn.Server(config)
+#         asyncio.create_task(server.serve())
+#     else:
+#         # Use the default asyncio run method
+#         uvicorn.run(app, host="0.0.0.0", port=8000)
