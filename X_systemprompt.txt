@@ -1,0 +1,80 @@
+## How to read an Xactimate Estimate
+
+Reading an Xactimate estimate involves understanding several key components that provide detailed information about the scope of work, materials, and costs associated with a restoration project. Here's a step-by-step guide to help you read an Xactimate estimate effectively:
+
+### *Header Information:*
+
+In the following section, we will delve into the essential components of the Header Information in an Xactimate estimate. This section sets the stage for the entire document by providing critical details that define the scope and context of the claim. It includes the Claim Information, which covers key identifiers such as the claim number, date of loss, policy number, type of loss, and pricelist. Additionally, the Insured Information section details the property owner's or policyholder's name, contact information, and property address. Lastly, the Adjuster Information provides necessary contact details about the insurance adjuster handling the claim, including their name, company, phone number, email, and business address. The following information is found on this page:
+
+- **Claim Information:** This section includes the claim number, date of loss, policy number, type of loss, and the pricelist.
+- **Insured Information:** Details about the property owner or policyholder, including their name, contact information, and property address.
+- **Adjuster Information:** Details about the insurance adjuster, including their name, the company they work for, their phone number, email, and business address.
+
+### Line Items Page:
+
+In this section, we will examine the Line Items Page of an Xactimate estimate, which provides a detailed breakdown of the specific tasks and materials needed for the project. This page outlines essential information such as item descriptions, quantities, unit costs, applicable taxes, and various values related to replacement and depreciation. Understanding this page is crucial for accurately interpreting the scope and cost of the work to be performed. The following information is found on this page:
+
+- **Item Description:** Each line item describes a specific task or material required for the project, such as "Roofing felt - 15 lb." or "Tear off, haul and dispose of comp. shingles - 3 tab"
+- **Quantity:** The amount of material or number of units required for the task, often measured in square feet, linear feet, or units.
+- **Unit Cost:** The cost per unit of the material or labor, based on local market rates.
+- **Tax:** Any applicable taxes on the materials or labor.
+- **Replacement Cost Value (RCV):** The full cost to replace the damaged property without considering depreciation.
+- **Age/Life:** The expected lifespan or age of the material or item.
+- **Condition (COND):** The condition of the item before damage occurred.
+- **Depreciation Percentage (DEP %):** The percentage of depreciation applied to the item based on its age and condition.
+- **Depreciation (DEPREC):** The total amount of depreciation applied to the item.
+- **Actual Cash Value (ACV):** The depreciated value of the item, which is the amount initially payable before recoverable depreciation.
+
+### *Summary for Dwelling Page*
+
+In this section, we will review the Summary for Dwelling Page in an Xactimate estimate. This page provides a comprehensive overview of the costs associated with the dwelling, including the total of all individual line items, material sales tax, and replacement cost value (RCV). It also details the depreciation deducted from the RCV, the actual cash value (ACV), and the policy deductible. Additionally, this page outlines the net claim payable to the claimant, both initially and after recovering depreciation. Understanding this summary is key to grasping the overall financial aspects of the insurance claim. The following information is found on this page:
+
+- **Line Item Total:** The total cost of all individual line items
+- **Material Sales Tax:** The applicable sales tax on the materials.
+- **Replacement Cost Value (RCV):** The total replacement cost of the dwelling before depreciation.
+- **Less Depreciation:** The amount of depreciation deducted from the RCV.
+- **Actual Cash Value (ACV):** The depreciated value of the dwelling.
+- **Less Deductible:** The policy deductible subtracted from the ACV.
+- **Net Claim:** The initial amount payable to the claimant after subtracting the deductible.
+- **Total Depreciation:** The total depreciation amount.
+- **Total Recoverable Depreciation:** The amount of depreciation that can be recovered upon completion of repairs.
+- **Net Claim if Depreciation is Recovered:** The total amount payable if all recoverable depreciation is claimed.
+
+### *Summary for Dwelling - Code Upgrade and Summary for All Items Page*
+
+In this section, we will explore the Summary for Dwelling - Code Upgrade and Summary for All Items Page in an Xactimate estimate. This page outlines the costs associated with code upgrades, including the total cost of these upgrades and their replacement cost value (RCV) before depreciation. It also provides the actual cash value (ACV) and the initial net claim payable to the claimant. Additionally, it details the costs for code upgrades that are paid when incurred, including material sales tax and the total amount paid upon completion. Understanding this summary is crucial for grasping the financial implications of code upgrades in the insurance claim. The following information is found on this page:
+
+**Summary for Dwelling - Code Upgrade:**
+
+- **Line Item Total:** The total cost for code upgrades.
+- **Replacement Cost Value (RCV):** The total replacement cost for code upgrades, before considering any depreciation.
+- **Actual Cash Value (ACV):** The depreciated value of the code upgrades.
+- **Net Claim:** The initial amount payable to the claimant.
+
+**Dwelling - Code Upgrade Paid When Incurred:**
+
+- **Line Item Total:** The total cost for code upgrades that are paid when incurred.
+- **Material Sales Tax:** The applicable sales tax on the materials for code upgrades.
+- **Replacement Cost Value (RCV):** The total replacement cost for code upgrades before depreciation.
+- **Total Paid When Incurred:** The amount paid once the code upgrades are completed.
+- **Net Claim:** The initial amount payable to the claimant.
+- **Net Claim if Additional Amounts are Recovered:** The total amount payable if all additional amounts are recovered upon completion of the code upgrades.
+
+### *How to Determine the Total Value of the Claim by Reading the Xactimate Estimate*
+
+To determine the total value of the claim using the Xactimate estimate, follow these steps:
+
+1. **Locate the Replacement Cost Value (RCV) on the Summary for Dwelling Page.**
+    - This page provides the RCV for the main dwelling without including any code upgrades.
+2. **Locate the Replacement Cost Value (RCV) on the Summary for Dwelling - Code Upgrade and Summary for All Items Page.**
+    - This page lists the RCV for code upgrades and additional items not included in the main dwelling summary.
+3. **Add the Two Replacement Cost Values Together.**
+    - Add the RCV from the Summary for Dwelling Page to the RCV from the Summary for Dwelling - Code Upgrade and Summary for All Items Page.
+
+### **Explanation**
+
+The reason for this addition is that the RCV on the Summary for Dwelling Page does not include the RCV for code upgrades and additional items listed on the Summary for Dwelling - Code Upgrade and Summary for All Items Page. Code upgrades and specific additional work are only added to the total job value once they are incurred or completed, as these items are not paid out until that point.
+
+### **Industry Standard**
+
+In practice, code upgrades and additional items are almost always completed. Therefore, to get an accurate total value of the claim, you should add the RCV from both pages. This combined total represents the complete value of the claim on the Xactimate estimate.
