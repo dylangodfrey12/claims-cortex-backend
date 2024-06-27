@@ -138,6 +138,16 @@ async def summarize(
         print(summary_text)
         print()
 
+        retrieval_evidence_processor = RetrievalEvidenceProcessor()
+
+          # Process the organized arguments using RE.py
+        retrieval_evidence_processor.process_components(organized_arguments)
+        print()
+
+        # Print the full evidence
+        print("Full Evidence:")
+        print(retrieval_evidence_processor.full_evidence)
+
         # Remove the temporary files
         os.remove(estimate_pdf_path)
         os.remove(property_pdf_path)
@@ -151,7 +161,7 @@ async def summarize(
         
         logger.debug("Summary generated successfully.")
         
-        return {"summary": summary_text, "email":email_summary,   "audio_url": audio_url}
+        return {"summary": summary_text, "email":email_summary, "links":retrieval_evidence_processor.full_evidence , "audio_url": audio_url}
     
     except Exception as e:
         logger.error(f"Error in summarizing: {e}")
@@ -173,8 +183,8 @@ async def generate_voice(summary: str = Form(...)):
         logger.error(f"Error in generating voice: {e}")
         return {"error": str(e)}
 
-@app.post("/generate-email/")
-async def generate_email(adjuster_email: str = Form(...)):
+@app.post("/generateFromEmail/")
+async def generateFrpmEmail(adjuster_email: str = Form(...)):
     try:
         logger.debug("Received request to generate email.")
         
@@ -192,6 +202,16 @@ async def generate_email(adjuster_email: str = Form(...)):
         argument_summarizer_email = ArgumentSummarizerEmail()
         adjuster_email_arguments = argument_summarizer_email.extract_arguments(adjuster_email)
         summary = argument_summarizer_email.summarize_arguments(adjuster_email_arguments, email_jest, retrieval_processor.full_arguments)
+
+        retrieval_evidence_processor = RetrievalEvidenceProcessor()
+
+         # Process the organized arguments using RE.py
+        retrieval_evidence_processor.process_components(email_arguments)
+        print()
+
+        # Print the full evidence
+        print("Full Evidence:")
+        print(retrieval_evidence_processor.full_evidence)
         
         Full_Email_Argument = EmaiFromEmail()
         final_email = Full_Email_Argument.the_email_arguments(summary, adjuster_email, email_jest, retrieval_processor.full_arguments)
@@ -202,22 +222,9 @@ async def generate_email(adjuster_email: str = Form(...)):
 
         audio_url = generate_audio(summary)
         
-        return {"message": "Email generated successfully", "summary": summary,"email":final_email,  "audio_url": audio_url}
+        return {"message": "Email generated successfully", "summary": summary,"email":final_email,"links":retrieval_evidence_processor.full_evidence, "audio_url": audio_url}
     
     except Exception as e:
         logger.error(f"Error in generating email: {e}")
         return {"error": str(e)}
 
-# import uvicorn
-# import asyncio
-
-# nest_asyncio.apply()
-
-# # Check if the event loop is already running
-# if __name__ == "__main__":
-#     if asyncio.get_event_loop().is_running():
-#         config = uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="debug")
-#         server = uvicorn.Server(config)
-#         asyncio.create_task(server.serve())
-#     else:
-#         uvicorn.run(app, host="0.0.0.0", port=8000)
