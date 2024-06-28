@@ -30,7 +30,7 @@ class ArgumentSummarizerEmail:
     
     def summarize_arguments(self, adjuster_email,email_jest,full_arguments):
         # Specify the path to the system prompt file
-        system_prompt_path = "AS_systemprompt.txt"
+        system_prompt_path = "ASE_systemprompt.txt"
         # Load the system prompt from the file
         system_prompt = load_system_prompt(system_prompt_path)
         
