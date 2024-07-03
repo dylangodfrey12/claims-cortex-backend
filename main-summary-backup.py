@@ -6,7 +6,6 @@ from fastapi import FastAPI, File, UploadFile, Form, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 import nest_asyncio
-import json
 
 from Xfile_upload import extract_text_from_pdf as extract_text_from_xfile
 from Mfile_upload import extract_text_from_pdf as extract_text_from_mfile
@@ -46,27 +45,18 @@ logger = logging.getLogger(__name__)
 class VoiceRequest(BaseModel):
     summary: str
 
-# class EmailRequest(BaseModel):
-#     summary: str
-#     adjuster_email: str
-
 class EmailRequest(BaseModel):
     summary: str
-    email_arguments: str
-    email_jest: dict
-    full_arguments: str
     adjuster_email: str
 
 
-
 @app.post("/generateFromPDF/")
-async def generateFromPDF(
+async def summarize(
     estimate_pdf: UploadFile = File(...), 
     property_pdf: UploadFile = File(...), 
 ):
     try:
         logger.debug("Received request to summarize.")
-        logger.debug(f"Received request to summarize with files: estimate_pdf={estimate_pdf.filename}, property_pdf={property_pdf.filename}")
         
         # Create a temporary directory
         temp_dir = "temp_files"
@@ -86,46 +76,46 @@ async def generateFromPDF(
 
         insurance_estimate = xactimate_extractor.extract_estimate(estimate_pdf_path)
         print("Insurance Company's Estimate:")
-        # print(insurance_estimate)
-        # print()
+        print(insurance_estimate)
+        print()
 
         measurement_extractor = MeasurementExtractor()
         contractor_measurements = measurement_extractor.extract_measurements(property_pdf_path)
         print("Extracted Measurements:")
-        # print(contractor_measurements)
-        # print()
+        print(contractor_measurements)
+        print()
 
         contractor_estimate_generator = ContractorEstimateGenerator()
         contractor_estimate = contractor_estimate_generator.generate_estimate(contractor_measurements)
         print("Contractor's Estimate:")
-        # print(contractor_estimate)
-        # print()
+        print(contractor_estimate)
+        print()
 
         comparator = EstimateComparator()
 
     # Compare the estimates using Cllm.py
         differences = comparator.compare_estimates(contractor_estimate, insurance_estimate)
         print("Differences between Contractor's and Insurance Company's Estimates:")
-        # print(differences)
-        # print()
+        print(differences)
+        print()
 
     # Create an instance of the ArgumentGenerator from Dllm.py
         argument_generator = ArgumentSelector()
 
     # Generate arguments based on the differences using Dllm.py
         arguments = argument_generator.generate_arguments(differences)
-        # print("Selected Arguments to be Distributed to Master Models:")
-        # print(arguments)
-        # print()
+        print("Selected Arguments to be Distributed to Master Models:")
+        print(arguments)
+        print()
 
     # Create an instance of the ArgumentOrganizer
         argument_organizer = ArgumentOrganizer()
 
     # Organize the arguments using AOllm.py
         organized_arguments = argument_organizer.organize_arguments(arguments)
-        # print("Organized Arguments:")
-        # print(organized_arguments)
-        # print()
+        print("Organized Arguments:")
+        print(organized_arguments)
+        print()
 
     # Create an instance of the RetrievalProcessor
         retrieval_processor = RetrievalProcessor()
@@ -135,8 +125,8 @@ async def generateFromPDF(
         print()
 
     # Print the full arguments
-        # print("Full Arguments:")
-        # print(retrieval_processor.full_arguments)
+        print("Full Arguments:")
+        print(retrieval_processor.full_arguments)
 
     # Create an instance of the ArgumentSummarizer
         argument_summarizer = ArgumentSummarizer()
@@ -147,69 +137,49 @@ async def generateFromPDF(
         print(summary_text)
         print()
 
-        # retrieval_evidence_processor = RetrievalEvidenceProcessor()
-
-        #   # Process the organized arguments using RE.py
-        # retrieval_evidence_processor.process_components(organized_arguments)
-        # print()
-
-        # # Print the full evidence
-        # print("Full Evidence:")
-        # print(retrieval_evidence_processor.full_evidence)
-
-        # Remove the temporary files
-        os.remove(estimate_pdf_path)
-        os.remove(property_pdf_path)
-        
-        # email_summary = summarize_email(differences, summary_text, retrieval_processor.full_arguments)
-        # print("Email Summary:")
-        # print(email_summary)
-        # print()
-
-        audio_url = generate_audio(summary_text)
-        
-        logger.debug("Summary generated successfully.")
-        
-        # return {"summary": summary_text, "email":email_summary, "links":retrieval_evidence_processor.full_evidence , "audio_url": audio_url}
-        return {"summary": summary_text, "organized_arguments": organized_arguments,"audio_url": audio_url, "full_arguments":retrieval_processor.full_arguments, "differences":differences }
-
-    except Exception as e:
-        logger.error(f"Error in summarizing: {e}")
-        return {"error": str(e)}
-
-@app.post("/emailPDF/")
-async def summarize(
-   summary: str = Form(...),
-   organized_arguments: str = Form(...),
-   full_arguments: str = Form(...),
-   differences: str = Form(...)
-):
-    try:
-        logger.debug("Received request to summarize the email.")
-        
         retrieval_evidence_processor = RetrievalEvidenceProcessor()
+
           # Process the organized arguments using RE.py
         retrieval_evidence_processor.process_components(organized_arguments)
         print()
 
         # Print the full evidence
-        # print("Full Evidence:")
-        # print(retrieval_evidence_processor.full_evidence)
+        print("Full Evidence:")
+        print(retrieval_evidence_processor.full_evidence)
+
+        # Remove the temporary files
+        os.remove(estimate_pdf_path)
+        os.remove(property_pdf_path)
         
-        email_summary = summarize_email(differences, summary, full_arguments)
+        email_summary = summarize_email(differences, summary_text, retrieval_processor.full_arguments)
         print("Email Summary:")
         print(email_summary)
         print()
 
-        # audio_url = generate_audio(summary_text)
+        audio_url = generate_audio(summary_text)
         
         logger.debug("Summary generated successfully.")
         
-        # return {"summary": summary_text, "email":email_summary, "links":retrieval_evidence_processor.full_evidence , "audio_url": audio_url}
-        return {"email": email_summary, "links":retrieval_evidence_processor.full_evidence  }
-
+        return {"summary": summary_text, "email":email_summary, "links":retrieval_evidence_processor.full_evidence , "audio_url": audio_url}
+    
     except Exception as e:
         logger.error(f"Error in summarizing: {e}")
+        return {"error": str(e)}
+
+@app.post("/generate-voice/")
+async def generate_voice(summary: str = Form(...)):
+    try:
+        logger.debug("Received request to generate voice.")
+        
+        # Create a thread for audio generation
+        audio_url = generate_audio(summary)
+        
+        logger.debug("Audio generated successfully.")
+        
+        return {"audio_url": audio_url}
+    
+    except Exception as e:
+        logger.error(f"Error in generating voice: {e}")
         return {"error": str(e)}
 
 @app.post("/generateFromEmail/")
@@ -224,9 +194,6 @@ async def generateFromEmail(adjuster_email: str = Form(...)):
 
         email_jest = EmailJest()
         adjuster_jest = email_jest.extract_arguments(adjuster_email)
-        print("email Jest")
-        print(email_jest)
-
 
         retrieval_processor = RetrievalProcessor()
         retrieval_processor.process_components(email_arguments)
@@ -235,66 +202,27 @@ async def generateFromEmail(adjuster_email: str = Form(...)):
         adjuster_email_arguments = argument_summarizer_email.extract_arguments(adjuster_email)
         summary = argument_summarizer_email.summarize_arguments(adjuster_email_arguments, email_jest, retrieval_processor.full_arguments)
 
-        # retrieval_evidence_processor = RetrievalEvidenceProcessor()
+        retrieval_evidence_processor = RetrievalEvidenceProcessor()
 
-        #  # Process the organized arguments using RE.py
-        # retrieval_evidence_processor.process_components(email_arguments)
-        # print()
+         # Process the organized arguments using RE.py
+        retrieval_evidence_processor.process_components(email_arguments)
+        print()
 
-        # # Print the full evidence
-        # print("Full Evidence:")
-        # print(retrieval_evidence_processor.full_evidence)
+        # Print the full evidence
+        print("Full Evidence:")
+        print(retrieval_evidence_processor.full_evidence)
         
-        # Full_Email_Argument = EmaiFromEmail()
-        # final_email = Full_Email_Argument.the_email_arguments(summary, adjuster_email, email_jest, retrieval_processor.full_arguments)
+        Full_Email_Argument = EmaiFromEmail()
+        final_email = Full_Email_Argument.the_email_arguments(summary, adjuster_email, email_jest, retrieval_processor.full_arguments)
 
-        # logger.debug("Email generated successfully.")
-        # print("Email To Adjuster:")
-        # print(final_email)
+        logger.debug("Email generated successfully.")
+        print("Email To Adjuster:")
+        print(final_email)
 
         audio_url = generate_audio(summary)
         
-        # return {"message": "Email generated successfully", "summary": summary,"email":final_email,"links":retrieval_evidence_processor.full_evidence, "audio_url": audio_url}
-        return {"message": "Email generated successfully","adjuster_email":adjuster_email,"audio_url": audio_url, "summary": summary,"email_arguments":email_arguments,"email_jest":email_jest, "full_arguments": retrieval_processor.full_arguments}
-
+        return {"message": "Email generated successfully", "summary": summary,"email":final_email,"links":retrieval_evidence_processor.full_evidence, "audio_url": audio_url}
     
-    except Exception as e:
-        logger.error(f"Error in generating email: {e}")
-        return {"error": str(e)}
-
-@app.post("/emailText/")
-async def generate_from_email(request: EmailRequest):
-    try:
-        logger.debug("Received request to generate email.")
-        
-        # Extract data from the request
-        summary = request.summary
-        email_arguments = request.email_arguments
-        email_jest = request.email_jest
-        full_arguments = request.full_arguments
-        adjuster_email = request.adjuster_email
-        
-
-        # Process the organized arguments using RE.py (example)
-        retrieval_evidence_processor = RetrievalEvidenceProcessor()
-        retrieval_evidence_processor.process_components(email_arguments)
-        
-        logger.debug("Processed components for retrieval.")
-
-        # Generate final email (example)
-        Full_Email_Argument = EmaiFromEmail()
-        final_email = Full_Email_Argument.the_email_arguments(
-            summary, adjuster_email, email_jest, full_arguments
-        )
-
-        logger.debug("Email generated successfully.")
-        
-        return {
-            "message": "Email generated successfully",
-            "email": final_email,
-            "links": retrieval_evidence_processor.full_evidence
-        }
-
     except Exception as e:
         logger.error(f"Error in generating email: {e}")
         return {"error": str(e)}
