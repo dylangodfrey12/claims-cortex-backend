@@ -1,5 +1,4 @@
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
 import os
 import logging
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException
@@ -81,26 +80,12 @@ prompt = ChatPromptTemplate.from_messages(
 # Create a question-answering chain using the language model and prompt template
 question_answer_chain = create_stuff_documents_chain(llm, prompt)
 chain = create_retrieval_chain(retriever, question_answer_chain)
-answerChain = chain.pick("answer")
-
 
 def document_to_dict(doc):
     return {
         "page_content": doc.page_content,
         "metadata": doc.metadata
     }
-
-async def generate_response(query: str, docs: List[Document], chat_history_str: str):
-    try:
-        logger.debug("Starting response generation.")
-        response = ""
-        for chunk in answerChain.stream({"input": query, "context": docs[0].page_content, "chat_history": chat_history_str}):
-            logger.debug(f"Yielding chunk: {chunk}")
-            response += "" + chunk  # Append the new chunk to the response
-            yield f"{chunk}"
-    except Exception as e:
-        logger.error(f"Error during streaming: {e}")
-        yield {"error": str(e)}
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
@@ -122,27 +107,25 @@ async def chat_endpoint(request: ChatRequest):
         chat_history_str = "\n".join([f"User: {msg['user']}\nAssistant: {msg['assistant']}" for msg in chat_history[-5:]])
 
         # Generate a response using the retrieval chain
-        # response = await chain.ainvoke({"input": query, "context": docs[0].page_content, "chat_history": chat_history_str})
+        response = await chain.ainvoke({"input": query, "context": docs[0].page_content, "chat_history": chat_history_str})
 
         # Convert the response to a serializable format
-        # def serialize(obj):
-        #     if isinstance(obj, Document):
-        #         return document_to_dict(obj)
-        #     if isinstance(obj, list):
-        #         return [serialize(item) for item in obj]
-        #     if isinstance(obj, dict):
-        #         return {key: serialize(value) for key, value in obj.items()}
-        #     return obj
+        def serialize(obj):
+            if isinstance(obj, Document):
+                return document_to_dict(obj)
+            if isinstance(obj, list):
+                return [serialize(item) for item in obj]
+            if isinstance(obj, dict):
+                return {key: serialize(value) for key, value in obj.items()}
+            return obj
 
-        # serialized_response = serialize(response)
-        # chat_history.append((query, response))
-        # logger.debug(f"Content of response: {chat_history_str}")
-        # logger.debug(f"Type of chat_history: {type(chat_history)}")
+        serialized_response = serialize(response)
+        chat_history.append((query, response))
+        logger.debug(f"Content of response: {chat_history_str}")
+        logger.debug(f"Type of chat_history: {type(chat_history)}")
 
         # Return the serialized response
-        # return ChatResponse(response=serialized_response)
-
-        return StreamingResponse(generate_response(query,docs,chat_history_str), media_type="text/event-stream")
+        return ChatResponse(response=serialized_response)
 
     except Exception as e:
         logger.error(f"Error in chat endpoint: {e}")
