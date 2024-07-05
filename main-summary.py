@@ -2,7 +2,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import threading
 import os
 import logging
-from fastapi import FastAPI, File, UploadFile, Form, HTTPException
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException,BackgroundTasks
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 import nest_asyncio
@@ -26,7 +26,13 @@ from Dllm import ArgumentSelector
 from AOllm import ArgumentOrganizer
 from ASllm import ArgumentSummarizer
 from ESllm import summarize_email
-
+import httpx
+import smtplib
+from email.message import EmailMessage
+import asyncio
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
 
 app = FastAPI()
 
@@ -56,6 +62,61 @@ class EmailRequest(BaseModel):
     email_jest: dict
     full_arguments: str
     adjuster_email: str
+
+class MailerRequest(BaseModel):
+    to_email: str
+    subject: str
+    message: str
+    pdf_links: list[str]
+
+async def download_pdf(url: str) -> bytes:
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        response.raise_for_status()  # Ensure we raise an exception for HTTP errors
+        return response.content
+
+
+def send_email_with_attachments(to_email: str, subject: str, message: str, pdf_contents: list[bytes], pdf_links: list[str]):
+    # Create a multipart email message
+    msg = MIMEMultipart()
+    msg['From'] = 'no-reply@slephora.com'
+    msg['To'] = to_email
+    msg['Subject'] = subject
+
+    # Attach the email body
+    msg.attach(MIMEText(message, 'html'))
+
+    for i, pdf_content in enumerate(pdf_contents):
+        filename = f'attachment_{i + 1}.pdf'
+        part = MIMEApplication(pdf_content, _subtype='pdf')
+        part.add_header('Content-Disposition', 'attachment', filename=filename)
+        msg.attach(part)
+
+    # Add PDF links in the email body as a separate MIMEText part
+    links_message = "\n\nSources:\n" + "\n".join(pdf_links)
+    msg.attach(MIMEText(links_message, 'plain'))
+
+    try:
+        with smtplib.SMTP_SSL('smtpout.secureserver.net', 465) as server:
+            server.login('no-reply@slephora.com', 'Boniface15')
+            server.send_message(msg)
+            logger.info("Email sent successfully!")
+    except Exception as e:
+        logger.error(f"Failed to send email: {e}")
+        raise
+    
+
+
+@app.post("/sendEmail")
+async def handle_send_email_with_attachments(email_request: MailerRequest, background_tasks: BackgroundTasks):
+    try:
+        pdf_contents = await asyncio.gather(*(download_pdf(url) for url in email_request.pdf_links))
+        background_tasks.add_task(send_email_with_attachments, email_request.to_email, email_request.subject, email_request.message, pdf_contents, email_request.pdf_links)
+        return {"message": "Email sent successfully!"}
+    except httpx.HTTPStatusError as e:
+        raise HTTPException(status_code=e.response.status_code, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 
