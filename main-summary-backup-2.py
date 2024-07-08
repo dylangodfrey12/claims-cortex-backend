@@ -360,7 +360,3 @@ async def generate_from_email(request: EmailRequest):
         logger.error(f"Error in generating email: {e}")
         return {"error": str(e)}
 
-
-# if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run(app, host="0.0.0.0", port=8000)
