@@ -227,13 +227,13 @@ async def generateFromPDF(
         # print(email_summary)
         # print()
 
-        # audio_url = generate_audio(summary_text)
+        audio_url = generate_audio(summary_text)
         
         logger.debug("Summary generated successfully.")
         
         # return {"summary": summary_text, "email":email_summary, "links":retrieval_evidence_processor.full_evidence , "audio_url": audio_url}
-        # return {"summary": summary_text, "organized_arguments": organized_arguments,"audio_url": audio_url, "full_arguments":retrieval_processor.full_arguments, "differences":differences }
-        return {"summary": summary_text, "organized_arguments": organized_arguments, "full_arguments":retrieval_processor.full_arguments, "differences":differences }
+        return {"summary": summary_text, "organized_arguments": organized_arguments,"audio_url": audio_url, "full_arguments":retrieval_processor.full_arguments, "differences":differences }
+        # return {"summary": summary_text, "organized_arguments": organized_arguments, "full_arguments":retrieval_processor.full_arguments, "differences":differences }
 
 
     except Exception as e:
@@ -315,11 +315,11 @@ async def generateFromEmail(adjuster_email: str = Form(...)):
         # print("Email To Adjuster:")
         # print(final_email)
 
-        # audio_url = generate_audio(summary)
+        audio_url = generate_audio(summary)
         
         # return {"message": "Email generated successfully", "summary": summary,"email":final_email,"links":retrieval_evidence_processor.full_evidence, "audio_url": audio_url}
-        # return {"message": "Email generated successfully","adjuster_email":adjuster_email,"audio_url": audio_url, "summary": summary,"email_arguments":email_arguments,"email_jest":email_jest, "full_arguments": retrieval_processor.full_arguments}
-        return {"message": "Email generated successfully","adjuster_email":adjuster_email, "summary": summary,"email_arguments":email_arguments,"email_jest":email_jest, "full_arguments": retrieval_processor.full_arguments}
+        return {"message": "Email generated successfully","adjuster_email":adjuster_email,"audio_url": audio_url, "summary": summary,"email_arguments":email_arguments,"email_jest":email_jest, "full_arguments": retrieval_processor.full_arguments}
+        # return {"message": "Email generated successfully","adjuster_email":adjuster_email, "summary": summary,"email_arguments":email_arguments,"email_jest":email_jest, "full_arguments": retrieval_processor.full_arguments}
 
 
     
