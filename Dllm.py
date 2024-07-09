@@ -4,15 +4,12 @@
 # and generating arguments based on the differences between the contractor's and insurance company's estimates.
 # The prefix "D" stands for Dispatching.
 
-import openai
+from openai import OpenAI
 from Mfile_upload import load_system_prompt
 
 class ArgumentSelector:
     def __init__(self):
-        # Initialize the OpenAI ChatCompletion client
-        self.client = openai.ChatCompletion()
-        api_key = "sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf"
-        openai.api_key = api_key
+        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
     
     def generate_arguments(self, differences):
         # Define the user message with the differences from Cllm.py
@@ -45,7 +42,7 @@ class ArgumentSelector:
         ]
 
         # Call the create method of the ChatCompletion client to get the response
-        response = self.client.create(
+        response = self.client.chat.completions.create(
             model="gpt-4o",  # Specify the model to use
             messages=messages  # Pass the list of messages
         )

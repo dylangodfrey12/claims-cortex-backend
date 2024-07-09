@@ -4,15 +4,12 @@
 # The model will be used to extract data from Xactimate Estimates.
 # The prefix "X" stands for Xactimate.
 
-import openai
+from openai import OpenAI
 from Xfile_upload import load_system_prompt, extract_text_from_pdf, get_pdf_path
 
 class XactimateExtractor:
     def __init__(self):
-        # Initialize the OpenAI ChatCompletion client
-        self.client = openai.ChatCompletion()
-        api_key = "sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf"
-        openai.api_key = api_key
+        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
     
     def extract_estimate(self,estimate_pdf_path):
         # Get the path to the PDF file from Xfile_upload module
@@ -22,31 +19,182 @@ class XactimateExtractor:
 
         # Define the user message
         user_message = """
-        Please read give me all of the line items paid for in the 
-        xactimate estimate that I've just uploaded. You should only have the line items that were
-        paid for and nothing else.
+            Please read give me all of the line items paid for in the Xactimate estimate that I've just uploaded. You should only have the line items and quantities that were paid for and nothing else.
 
-        Here is an example of the formatting:
+            ---
 
-        1: R&R Flashing - pipe jack
-        2: 3 Tab Shingle
-        3: Haul debris
+            **Example One of the Formatting:**
 
-        4. Contents - move out then reset
-        5. Seal the surface area w/PVA primer - one coat
-        6. Paint the walls - two coats
-        7. Final cleaning - construction - Residential
-        8. Haul debris - per pickup truck load - including dump fees
-        9. General labor - labor minimum
-        10. Cleaning labor minimum  
+            **1: Remove 3 tab - 25 yr. - composition shingle roofing - incl. felt:**
 
-        Ensure you match which number the line item is.
+            - **Quantity:** 0.33SQ
 
-        Only take information from the Line Items Page.
-        Even if the line item repeats place it on the output.
+            **2: tab - 25 yr. - comp. shingle roofing - w/out felt:**
 
-        Guide to Understanding Your Property Estimate page is invalid, don't read from it.
-        
+            - **Quantity:** 0.33SQ
+
+            **3: Remove Additional charge for high roof (2 stories or greater)**
+
+            - **Quantity:** 20.07 SQ
+
+            **4: Asphalt starter - universal starter course**
+
+            - **Quantity:** 135.00 LF
+
+            **5: Ridge cap - composition shingles**
+
+            - **Quantity:** 14.00 LF
+
+            **6: Drip Edge**
+
+            - **Quantity:** 321.00 LF
+
+            **7: Flashing - Pipe Jack**
+
+            - **Quantity:** 321.00 LF
+
+            **8: Continuous ridge vent - aluminum**
+
+            - **Quantity:** 54.00 LF
+
+            ---
+
+            **Example Two of the Formatting:**
+
+            **1: Tear off, haul and dispose of comp. shingles - 3 tab**
+
+            - **Quantity:** 20.24 SQ
+
+            **2: Roofing felt - 15 lb.**
+
+            - **Quantity:** 14.68 SQ
+
+            **3: Roofing felt - 15 lb**
+
+            - **Quantity:** 5.56 SQ
+
+            **4: 3 tab - 25 yr. - comp. shingle roofing - w/out felt**
+
+            - **Quantity:** 0.67 SQ
+
+            **5: 3 tab - 25 yr. - comp. shingle roofing - w/out felt**
+
+            - **Quantity:** 22.00 SQ
+
+            **6: 3 tab - 25 yr. - comp. shingle roofing - w/out felt**
+
+            - **Quantity:** 0.67 SQ
+
+            **7: Flashing - Pipe Jack**
+
+            - **Quantity:** 3.00 EA
+
+            **8: R&R Chimney flashing - average (32" x 36")**
+
+            - **Quantity:** 1.00 EA
+
+            **9: Drip Edge**
+
+            - **Quantity:** 229.05 LF
+
+            **10: Ice & water barrier**
+
+            - **Quantity:** 556.00 SF
+
+            ---
+
+            **Example Three of the Formatting:**
+
+            **1: Remove 3 tab - 25 yr. - composition shingle roofing (per SHINGLE)**
+
+            - **Quantity:** 12.00 EA
+
+            **2: 3 tab - 25 yr. - composition shingle roofing (per SHINGLE)**
+
+            - **Quantity:** 12.00 EA
+
+            ---
+
+            **Example Four of the Formatting:**
+
+            **1: Tear off, haul and dispose of comp. shingles - 3 tab**
+
+            - **Quantity:** 12.70 SQ
+
+            **2: Remove Additional charge for high roof (2 stories or greater)**
+
+            - **Quantity:** 3.91 SQ
+
+            **3: Remove Additional charge for steep roof - 7/12 to 9/12 slope**
+
+            - **Quantity:** 0.09 SQ
+
+            **4: Roofing felt - 15 lb**
+
+            - **Quantity:** 10.37 SQ
+
+            **5: 3 tab - 25 yr. - comp. shingle roofing - w/out felt**
+
+            - **Quantity:** 0.33 SQ
+
+            **6: 3 tab - 25 yr. - comp. shingle roofing - w/out felt**
+
+            - **Quantity:** 0.67 SQ
+
+            **7: 3 tab - 25 yr. - comp. shingle roofing - w/out felt**
+
+            - **Quantity:** 14.00 SQ
+
+            **8: 3 tab - 25 yr. - comp. shingle roofing - w/out felt**
+
+            - **Quantity:** 0.33 SQ
+
+            **9: Additional charge for high roof (2 stories or greater)**
+
+            - **Quantity:** 3.91 SQ
+
+            **10: Additional charge for steep roof - 7/12 to 9/12 slope**
+
+            - **Quantity:** 0.09 SQ
+
+            **11: Continuous ridge vent - aluminum**
+
+            - **Quantity:** 27.75 LF
+
+            **12: Flashing - pipe jack**
+
+            - **Quantity:** 2.00 EA
+
+            **13: R&R Drip edge**
+
+            - **Quantity:** 189.17 LF
+
+            **14: Digital satellite system - Detach & reset**
+
+            - **Quantity:** 1.00 EA
+
+            **15: Digital satellite system - alignment and calibration only**
+
+            - **Quantity:** 1.00 EA
+
+            **16: R&R Power attic vent cover only - metal**
+
+            - **Quantity:** 1.00 EA
+
+            **17: Roofer - per hour**
+
+            - **Quantity:** 1.00 HR
+
+            **18: Ice & water barrier**
+
+            - **Quantity:** 233.05 SF
+
+            ---
+
+            Ensure you match which number the line item is.
+
+            Only take information from the Line Items Page. Even if the line item repeats place it on the output.
+
         """
         
         # Specify the path to the system prompt file
@@ -62,8 +210,9 @@ class XactimateExtractor:
         ]
 
         # Call the create method of the ChatCompletion client to get the response
-        response = self.client.create(
+        response = self.client.chat.completions.create(
             model="gpt-4o",  # Specify the model to use
+            temperature=0,
             messages=messages  # Pass the list of messages
         )
         # Extract the assistant's message content from the response

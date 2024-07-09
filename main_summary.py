@@ -35,7 +35,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 from celery_app import celery
-
+from er_llm import ErIcGenerator
+from sor_llm import SorEvaluator
 app = FastAPI()
 
 clients = {}
@@ -153,7 +154,7 @@ async def notify_client(client_id: str, message: str):
 
 
 @celery.task(name="process_pdf_files")
-def process_pdf_files(estimate_pdf_content, property_pdf_content, client_id):
+async def process_pdf_files(estimate_pdf_content, property_pdf_content, client_id):
     logger.info("Started processing PDF files")
     try:
         temp_dir = "temp_files"
@@ -171,48 +172,34 @@ def process_pdf_files(estimate_pdf_content, property_pdf_content, client_id):
        # Your existing logic
         xactimate_extractor = XactimateExtractor()
         insurance_estimate = xactimate_extractor.extract_estimate(estimate_pdf_path)
-        logger.info("Insurance Company's Estimate extracted")
+        
+        
+        sor_director = SorEvaluator()
+        # returns IC type
+        sor_director_repair_type = await sor_director.run_and_compare_ic_determiner(insurance_estimate)
+        
+        result = await sor_director.route_arguments_from_determiner(sor_director_repair_type,  insurance_estimate, property_pdf_path)
+       # Access the return values
+        logger.debug(result)
 
-        measurement_extractor = MeasurementExtractor()
-        contractor_measurements = measurement_extractor.extract_measurements(property_pdf_path)
-        logger.info("Extracted contractor measurements")
-
-        contractor_estimate_generator = ContractorEstimateGenerator()
-        contractor_estimate = contractor_estimate_generator.generate_estimate(contractor_measurements)
-        logger.info("Generated contractor estimate")
-
-        comparator = EstimateComparator()
-        differences = comparator.compare_estimates(contractor_estimate, insurance_estimate)
-        logger.info("Compared estimates")
-
-        argument_generator = ArgumentSelector()
-        arguments = argument_generator.generate_arguments(differences)
-        logger.info("Generated arguments")
-
-        argument_organizer = ArgumentOrganizer()
-        organized_arguments = argument_organizer.organize_arguments(arguments)
-        logger.info("Organized arguments")
-
-        retrieval_processor = RetrievalProcessor()
-        retrieval_processor.process_components(organized_arguments)
-        logger.info("Processed retrieval components")
-
-        argument_summarizer = ArgumentSummarizer()
-        summary_text = argument_summarizer.summarize_arguments(organized_arguments)
-        logger.info("Summarized arguments")
-
-        # audio_url = generate_audio(summary_text)
-        logger.info("Generated audio URL")
-
+        summary_text, full_evidence , audio_url, full_arguments, differences, organized_arguments = result
+    
+    #     measurement_extractor = MeasurementExtractor()
+    # 
+        # Remove the temporary files
         os.remove(estimate_pdf_path)
         os.remove(property_pdf_path)
-        logger.info("Removed temporary files")
+        
+        # todo:
+        # audio_url = generate_audio(summary_text)
+        
+        logger.debug("Summary generated successfully.")
 
         result = {
             "summary": summary_text,
             "organized_arguments": organized_arguments,
-            # "audio_url": audio_url,
-            "full_arguments": retrieval_processor.full_arguments,
+            "audio_url": audio_url,
+            "full_arguments": full_arguments,
             "differences": differences
         }
 
@@ -341,7 +328,7 @@ def generate_from_email_task(adjuster_email, client_id):
         summary = argument_summarizer_email.summarize_arguments(adjuster_email_arguments, email_jest, retrieval_processor.full_arguments)
         logger.info("Summarized arguments")
 
-        # audio_url = generate_audio(summary_text)
+        audio_url = generate_audio(summary)
 
 
         result = {
@@ -350,7 +337,7 @@ def generate_from_email_task(adjuster_email, client_id):
             "summary": summary,
             "email_arguments": email_arguments,
             "full_arguments": retrieval_processor.full_arguments,
-             # "audio_url": audio_url,
+            "audio_url": audio_url,
         }
         print("results:")
 

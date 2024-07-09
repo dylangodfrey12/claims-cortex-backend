@@ -4,7 +4,7 @@
 # The prefix "ASE" stands for Argument Summarizer Email.
 
 import anthropic
-import openai
+from openai import OpenAI
 from email_upload import load_system_prompt, get_adjuster_email
 
 class ArgumentSummarizerEmail:
@@ -16,7 +16,7 @@ class ArgumentSummarizerEmail:
           # Initialize the EmailArgumentSelector instance
     #def __init__(self):
         # Create an instance of the OpenAI ChatCompletion client
-     #   self.client = openai.ChatCompletion()
+     #   self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
         # Set the OpenAI API key
       #  api_key = "sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf"
        # openai.api_key = api_key

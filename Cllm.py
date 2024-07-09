@@ -1,17 +1,13 @@
-# Cllm.py
 
-# This script serves as the Large Language Model (LLM) for comparing estimates
-# from Ellm.py and Xllm.py to find the differences.
-# The prefix "C" stands for Compare Estimates.
-
-import openai
+from Xllm import XactimateExtractor as InsuranceGenerator
+from Mllm import MeasurementExtractor as MeasurementGenerator
+from Ellm import EstimateGenerator as ContractorEstimateGenerator
+from Mfile_upload import load_system_prompt
+from openai import OpenAI
 
 class EstimateComparator:
     def __init__(self):
-        # Initialize the OpenAI ChatCompletion client
-        self.client = openai.ChatCompletion()
-        api_key = "sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf"
-        openai.api_key = api_key
+        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
     
     def compare_estimates(self, contractor_estimate, insurance_estimate):
         # Define the user message with the estimates from Ellm.py and Xllm.py
@@ -20,20 +16,32 @@ class EstimateComparator:
         Identify and output the line items that are present in the contractor's estimate but missing in the insurance company's estimate. 
         Use the following estimates for the comparison:
 
-        Contractor's Estimate:
+        **Contractor's Estimate:**
         {contractor_estimate}
 
-        Insurance Company's Estimate:
+        **Insurance Company's Estimate:**
         {insurance_estimate}
 
         Only output the line items that are present in the contractor's estimate but missing in the insurance company's estimate. 
+
+        ## Rules:
+        One: Ignore Siding panels and shingles. Meaning that if one of the line items that are different are siding panels or shingles do not output them as a difference.
+
+        Two: Ignore methods of disposal of the shingles or siding, in the output.
+
+        Three: Ignore anytime of felt paper or underlayment.
+
         Do not output the quantities of the line items.
         """
         
         # Specify the path to the system prompt file
         #system_prompt_path = "C_systemprompt.txt"
         # Load the system prompt from the file
-        system_prompt = "follow the prompt"
+            # Specify the path to the system prompt file
+        system_prompt_path = "c_systemprompt.txt"
+            # Load the system prompt from the file
+        system_prompt = load_system_prompt(system_prompt_path)
+            
         
         # Create a list of messages for the chat
         messages = [
@@ -42,7 +50,7 @@ class EstimateComparator:
         ]
 
         # Call the create method of the ChatCompletion client to get the response
-        response = self.client.create(
+        response = self.client.chat.completions.create(
             model="gpt-4o",  # Specify the model to use
             messages=messages  # Pass the list of messages
         )

@@ -1,19 +1,12 @@
-### Step 3: Extract Relevant Roof Measurements
+### Extract Relevant Roofing and Siding Measurements
 
-- Manually review the measurement reports from both Hover and Eagleview to locate the applicable roof measurements.
+- Manually review the measurement reports from Hover to locate the applicable roofing and siding measurements.
 - The required measurements are typically found in categorized tables within these reports.
 
-#### For Eagleview, look for tables containing the following measurements:
-- Total Roof Area
-- Ridges
-- Valleys
-- Flashing
-- Rakes
-- Step flashing
-- Hips
-- Eaves
+---
 
-#### For Hover, search for tables with the following measurements:
+### For Hover, search for tables with the following measurements:
+
 - Roof Facets
 - (Ridges / Hips) (note / is not divided symbol, (Ridges / Hips) is the name of the entire variable)
 - Valleys
@@ -22,3 +15,14 @@
 - Flashing
 - Step Flashing
 - Roof Pitch Area
+
+---
+
+### For Hover, search for tables with the following measurements:
+
+- Facades - Siding
+- SIDING PER ELEVATION
+    - Total Front
+    - Total Right
+    - Total Left
+    - Total Back

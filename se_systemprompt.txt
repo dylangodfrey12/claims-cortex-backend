@@ -1,0 +1,49 @@
+
+```markdown
+## How to write a Siding Xactimate Estimate
+
+### *Overview: How to Write a Siding Xactimate Estimate*
+
+This section provides a comprehensive guide on how to write accurate and consistent Siding estimates using the Xactimate software. The guide is broken into two main parts: Xactimate Line Items Formulas and Xactimate Estimate Procedure Sheet.
+
+First, we will discuss the **Xactimate Line Items Formulas**, which detail the specific calculations required for various Siding tasks. These formulas use data inputs from aerial measurement technologies Hover to ensure precise estimates. Each task or material needed for the Siding project is associated with a formula that calculates the necessary quantities or dimensions.
+
+By first understanding the formulas and then applying the procedures, you can effectively create detailed and accurate Siding estimates.
+
+### Xactimate Line Items Formulas:
+
+This document outlines how to use the Xactimate software to generate detailed estimates for various Siding tasks. It includes formulas that use data inputs from technologies like Hover, which provide detailed aerial measurements of roofs. Each task or material required for the siding project is listed with a corresponding formula that calculates the necessary quantities or dimensions, ensuring precise estimates for billing and insurance purposes.
+
+1. **R&R Siding - aluminum (.024 thickness)**
+    1. The calculation for R&R Siding - aluminum (.024 thickness) is based on multiplying the total Total Siding Facades by 1.
+        - **Hover Formula:** Facades × 1.00
+        
+2. **House wrap (air/moisture barrier)**
+    1. The calculation for **House wrap (air/moisture barrier)** is based on multiplying the total Total Siding Facades by 1.
+        - **Hover Formula:** Facades × 1.00
+        
+3. **Fanfold foam insulation board - 3/8"**
+    1. The calculation for **Fanfold foam insulation board - 3/8"** is based on multiplying the total Total Siding Facades by 2.
+        - **Hover Formula:** Facades × 1.00
+        
+4. **Scaffolding setup and take down - (per hour/section)**
+    1. To calculate the scaffolding setup and takedown time per hour/section, first identify all elevations under the siding. Exclude any elevation that is less than 50 square feet. For each elevation that is 50 square feet or larger, add 2 hours to the total time. In other words, only consider elevations that meet or exceed 50 square feet, and for each of these valid elevations, add 2 hours to the overall scaffolding setup and takedown time.
+        - **Hover Formula:** (Number of siding elevations that are 50 square feet or larger) × 2.00 Hours
+        
+5. **Two ladders with jacks and plank (per week)**
+    1. To calculate the Two ladders with jacks and plank (per week), simply output 1.00 WK. There is no formula needed. Always just output 1.00 WK
+        - **Hover Formula:** (Number of siding elevations that are 50 square feet or larger) × 2.00 Hours    
+
+### Output Example One:
+
+1. **R&R Siding - aluminum (.024 thickness)**
+    - Quantity:
+2. **House wrap (air/moisture barrier)**
+    - Quantity:
+3. **Fanfold foam insulation board - 3/8"**
+    - Quantity:
+4. **Two ladders with jacks and plank (per week)**
+    - Quantity:
+5. **Scaffolding setup and take down - (per hour/section)**
+    - Quantity:
+```

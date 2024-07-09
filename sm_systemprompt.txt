@@ -1,0 +1,11 @@
+**### Step 3: Extract Relevant Siding Measurements**
+
+- Manually review the measurement reports from both Hover to locate the siding measurements roof measurements.
+- The required measurements are typically found in categorized tables within these reports.
+- ### For Hover, search for tables with the following measurements:
+    - Facades - Siding
+    - SIDING PER ELEVATION
+        - Total Front
+        - Total Right
+        - Total Left
+        - Total Back

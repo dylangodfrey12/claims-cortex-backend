@@ -5,14 +5,13 @@
 # EAS stands for "Email Argument Selector"
 
 
-import openai
+from openai import OpenAI
 from email_upload import load_system_prompt
 
 class EmailArgumentSelector:
     def __init__(self):
-        self.client = openai.ChatCompletion()
-        api_key = "sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf"
-        openai.api_key = api_key
+        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
+
 
     def extract_arguments(self, adjuster_email):
         user_message = f"""
@@ -35,9 +34,10 @@ class EmailArgumentSelector:
             {"role": "user", "content": user_message},
         ]
 
-        response = self.client.create(
-            model="gpt-4o",
-            messages=messages
+        response = self.client.chat.completions.create(
+            model="gpt-4o",  # Specify the model to use
+            temperature=0, 
+            messages=messages  # Pass the list of messages
         )
 
         email_arguments = response.choices[0].message.content

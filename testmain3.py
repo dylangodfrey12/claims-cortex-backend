@@ -17,6 +17,9 @@ from voice import generate_audio
 from RE import RetrievalEvidenceProcessor
 from openlink import open_links
 
+pdf_path1 = r"C:\Users\dylan\Downloads\summarizer-backend-u44sqn64ojgmxf9maagu164qxa\carroll_estimate.pdf"
+pdf_path2 = r"C:\Users\dylan\Downloads\summarizer-backend-u44sqn64ojgmxf9maagu164qxa\pro_premium_measurements_29.pdf"
+
 def generate_audio_thread(summary_text):
     generate_audio(summary_text)
 
@@ -32,7 +35,7 @@ if __name__ == "__main__":
     xactimate_extractor = XactimateExtractor()
 
     # Extract the insurance company's estimate using Xllm.py
-    insurance_estimate = xactimate_extractor.extract_estimate()
+    insurance_estimate = xactimate_extractor.extract_estimate(pdf_path1)
     print("Insurance Company's Estimate:")
     print(insurance_estimate)
     print()
@@ -41,7 +44,7 @@ if __name__ == "__main__":
     measurement_extractor = MeasurementExtractor()
 
     # Extract measurements from the contractor's PDF using Mllm.py
-    contractor_measurements = measurement_extractor.extract_measurements()
+    contractor_measurements = measurement_extractor.extract_measurements(pdf_path2)
     print("Extracted Measurements:")
     print(contractor_measurements)
     print()

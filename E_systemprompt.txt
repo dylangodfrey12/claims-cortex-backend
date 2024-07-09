@@ -1,158 +1,284 @@
-## How to write an Xactimate Estimate
 
-### *Overview: How to Write an Xactimate Estimate*
+## How to write a Siding or Roofing Xactimate Estimate
 
-This section provides a comprehensive guide on how to write accurate and consistent roofing estimates using the Xactimate software. The guide is broken into two main parts: Xactimate Line Items Formulas and Xactimate Estimate Procedure Sheet.
+### *Overview: How to Write a Roofing or Siding Xactimate Estimate*
 
-First, we will discuss the **Xactimate Line Items Formulas**, which detail the specific calculations required for various roofing tasks. These formulas use data inputs from aerial measurement technologies like EagleView and Hover to ensure precise estimates. Each task or material needed for the roofing project is associated with a formula that calculates the necessary quantities or dimensions.
+This section provides a comprehensive guide on how to write accurate and consistent Siding estimates using the Xactimate software. The guide is broken into two main parts: Xactimate Line Items Formulas and Xactimate Estimate Procedure Sheet.
 
-Following this, we will cover the **Xactimate Estimate Procedure**, which provides the rules and examples for creating estimates. This part emphasizes consistency and selection criteria for different materials and items, ensuring no duplication within subtypes such as Shingle Removal, Shingle Installation, and Ridge Vent. It also highlights the importance of including only items with measurable quantities, thereby maintaining clarity and accuracy.
+First, we will discuss the **Xactimate Line Items Formulas**, which detail the specific calculations required for various Siding or Roofing tasks. These formulas use data inputs from aerial measurement technologies Hover to ensure precise estimates. Each task or material needed for the Siding project is associated with a formula that calculates the necessary quantities or dimensions.
 
-By first understanding the formulas and then applying the procedures, you can effectively create detailed and accurate roofing estimates.
+By first understanding the formulas and then applying the procedures, you can effectively create detailed and accurate Siding or Roofing estimates.
 
-### Xactimate Line Items Formulas:
+---
 
-This document outlines how to use the Xactimate software to generate detailed estimates for various roofing tasks. It includes formulas that use data inputs from technologies like EagleView and Hover, which provide detailed aerial measurements of roofs. Each task or material required for the roofing project is listed with a corresponding formula that calculates the necessary quantities or dimensions, ensuring precise estimates for billing and insurance purposes.
+## Roofing Xactimate Estimates
 
 1. **Remove 3 tab - 25 yr. - composition shingle roofing**
-    1. The calculation for the removal of shingles is based on multiplying the total roof area or roof facets by 10% to estimate the affected area.
-        1. **EagleView Formula:** Total Roof Area × 0.01
-        2. **Hover Formula:** Roof Facets × 0.01
-2. **Tear off, haul and dispose of comp. shingles - 3 tab**
-    1. Similar to removal, this item uses the same calculation method to estimate the waste management needs.
-        1. **EagleView Formula:** Total Roof Area × 0.01
-        2. **Hover Formula:** Roof Facets × 0.01
-3. **3 tab - 25 yr. - composition shingle roofing**
-    1. Installation calculations include an additional factor to account for coverage efficiency.
-        1. **EagleView Formula:** (Total Roof Area × 0.01) × 1.1
-        2. **Hover Formula:** (Roof Facets × 0.01) × 1.1
-4. **Remove Laminated - comp. shingle rfg. - w/ felt**
-    1. Calculations for removing laminated shingles mirror those for standard shingles, using the roof area or facets.
-        1. **EagleView Formula:** Total Roof Area × 0.01
-        2. **Hover Formula:** Roof Facets × 0.01
-5. **Laminated - comp. shingle rfg. - w/out felt**
-    1. The formula adjusts the base area to incorporate a higher material usage factor.
-        1. **EagleView Formula:** (Total Roof Area × 0.01) × 1.1
-        2. **Hover Formula:** (Roof Facets × 0.01) × 1.1
-6. **Asphalt starter - universal starter course**
-    1. Calculations for asphalt starter are straightforward, involving the sum of eaves and rakes.
-        1. **EagleView Formula:** Eaves + Rakes
-        2. **Hover Formula:** Eaves + Rakes
-7. **Roofing felt - 15 lb.**
-    1. The area for roofing felt is derived similarly to shingle removal and installation.
-        1. **EagleView Formula:** Total Roof Area × 0.01
-        2. **Hover Formula:** Roof Facets × 0.0 1
-8. **Ice & water barrier**
-    1. The quantity of ice and water barrier needed is based on the combined linear measurements of valleys and eaves.
-        1. **EagleView Formula:** Valleys + Eaves
-        2. **Hover Formula:** Valleys + Eaves
-9. **R&R Continuous ridge vent - aluminum**
-    1. The ridge vent calculation uses the total length of ridges or hips.
-        1. EagleView Formula: Ridges
-        2. **Hover Formula**: Ridges / Hips
-10. **R&R Continuous ridge vent - shingle-over style**
-    1. Calculations involve the total length of ridges or the combined length of ridges and hips.
-        1. **EagleView Formula:** Ridges
-        2. **Hover Formula:** Ridges / Hips (note / is not divided symbol, Ridges / Hips is the name of the entire variable)
-11. **R&R Ridge cap - composition shingles**
-    1. For ridge caps, the formula is based on the length of ridges and/or hips.
-        1. **EagleView Formula:** Ridges
-        2. **Hover Formula:** Ridges / Hips (note / is not divided symbol, Ridges / Hips is the name of the entire variable)
-12. **R&R Drip edge**
-    1. The drip edge calculation uses the combined length of rakes and valleys.
-        1. **EagleView Formula:** Rakes + Valleys
-        2. **Hover Formula:** Rakes + Valleys
-13. **R&R Counterflashing - Apron flashing**
-    1. The counterflashing formula considers the linear measurements of flashing.
-        1. **EagleView Formula:** Flashing
-        2. **Hover Formula:** Flashing
-14. **Step flashing**
-    1. Step flashing calculation uses the total number of step flashing points.
-        1. **EagleView Formula:** Step Flashing
-        2. **Hover Formula:** Step Flashing
-15. **Remove Additional charge for steep roof - 7/12 to 9/12 slope**
-    1. Calculations involve adding the pitch column for steep roof pitches between 7/12 and 9/12.
-        1. **EagleView Formula:** Proper Areas per Pitch Column + Proper Areas per Pitch Column
-        2. **Hover Formula:** Proper Roof Pitch + Proper Roof Pitch
-16. **Additional charge for steep roof - 7/12 to 9/12 slope**
-    1. Calculations involve adding the pitch column for steep roof pitches between 7/12 and 9/12.
-        1. **EagleView Formula:** Proper Areas per Pitch Column + Proper Areas per Pitch Column
-        2. **Hover Formula:** Proper Roof Pitch + Proper Roof Pitch
-17. **Remove Additional charge for steep roof - 10/12 to 12/12 slope**
-    1. Calculations involve adding the pitch column for steep roof pitches between 10/12 and 12/12.
-        1. **EagleView Formula:** Proper Areas per Pitch Column + Proper Areas per Pitch Column
-        2. **Hover Formula:** Proper Roof Pitch + Proper Roof Pitch
-18. **Additional charge for steep roof - 10/12 to 12/12 slope**
-    1. Calculations involve adding the pitch column for steep roof pitches between 10/12 and 12/12.
-        1. **EagleView Formula:** Proper Areas per Pitch Column + Proper Areas per Pitch Column
-        2. **Hover Formula:** Proper Roof Pitch + Proper Roof Pitch
 
-### Xactimate Estimate Procedures:
+    - The calculation for the removal of shingles is based on multiplying the total roof area or roof facets by 10% to estimate the affected area.
+
+    - **Hover Formula:** Roof Facets × 0.01
+
+2. **Tear off, haul and dispose of comp. shingles - 3 tab**
+
+    - Similar to removal, this item uses the same calculation method to estimate the waste management needs.
+
+    - **Hover Formula:** Roof Facets × 0.01
+
+3. **3 tab - 25 yr. - composition shingle roofing**
+
+    - Installation calculations include an additional factor to account for coverage efficiency.
+
+    - **Hover Formula:** (Roof Facets × 0.01) × 1.1
+
+4. **Remove Laminated - comp. shingle rfg. - w/ felt**
+
+    - Calculations for removing laminated shingles mirror those for standard shingles, using the roof area or facets.
+
+    - **Hover Formula:** Roof Facets × 0.01
+
+5. **Laminated - comp. shingle rfg. - w/out felt**
+
+    - The formula adjusts the base area to incorporate a higher material usage factor.
+
+    - **Hover Formula:** (Roof Facets × 0.01) × 1.1
+
+6. **Asphalt starter - universal starter course**
+
+    - Calculations for asphalt starter are straightforward, involving the sum of eaves and rakes.
+
+    - **Hover Formula:** Eaves + Rakes
+
+7. **Roofing felt - 15 lb.**
+
+    - The area for roofing felt is derived similarly to shingle removal and installation.
+
+    - **Hover Formula:** Roof Facets × 0.01
+
+8. **Ice & water barrier**
+
+    - The quantity of ice and water barrier needed is based on the combined linear measurements of valleys and eaves.
+
+    - **Hover Formula:** Valleys + Eaves
+
+9. **R&R Continuous ridge vent - aluminum**
+
+    - The ridge vent calculation uses the total length of ridges or hips.
+
+    - **Hover Formula:** Ridges / Hips
+
+10. **R&R Continuous ridge vent - shingle-over style**
+
+    - Calculations involve the total length of ridges or the combined length of ridges and hips.
+
+    - **Hover Formula:** Ridges / Hips (note / is not divided symbol, Ridges / Hips is the name of the entire variable)
+
+11. **R&R Ridge cap - composition shingles**
+
+    - For ridge caps, the formula is based on the length of ridges and/or hips.
+
+    - **Hover Formula:** Ridges / Hips (note / is not divided symbol, Ridges / Hips is the name of the entire variable)
+
+12. **R&R Drip edge**
+
+    - The drip edge calculation uses the combined length of rakes and valleys.
+
+    - **Hover Formula:** Rakes + Valleys
+
+13. **R&R Counterflashing - Apron flashing**
+
+    - The counterflashing formula considers the linear measurements of flashing.
+
+    - **Hover Formula:** Flashing
+
+14. **Step flashing**
+
+    - Step flashing calculation uses the total number of step flashing points.
+
+    - **Hover Formula:** Step Flashing
+
+15. **Remove Additional charge for steep roof - 7/12 to 9/12 slope**
+
+    - Calculations involve adding the pitch column for steep roof pitches between 7/12 and 9/12.
+
+    - **Hover Formula:** Proper Roof Pitch + Proper Roof Pitch
+
+16. **Additional charge for steep roof - 7/12 to 9/12 slope**
+
+    - Calculations involve adding the pitch column for steep roof pitches between 7/12 and 9/12.
+
+    - **Hover Formula:** Proper Roof Pitch + Proper Roof Pitch
+
+17. **Remove Additional charge for steep roof - 10/12 to 12/12 slope**
+
+    - Calculations involve adding the pitch column for steep roof pitches between 10/12 and 12/12.
+
+    - **Hover Formula:** Proper Roof Pitch + Proper Roof Pitch
+
+18. **Additional charge for steep roof - 10/12 to 12/12 slope**
+
+    - Calculations involve adding the pitch column for steep roof pitches between 10/12 and 12/12.
+
+    - **Hover Formula:** Proper Roof Pitch + Proper Roof Pitch
+
+### Xactimate Roofing Estimate Procedures:
 
 The document outlines a set of rules and examples for creating roofing estimates, focusing on consistency and selection criteria for different materials and items. It specifies that if the measurements for a particular item sum to zero, the item should not be included in the estimate. It further details a selection process where only one item from each subtype (Shingle Removal, Shingle Installation, and Ridge Vent) should be chosen, ensuring no duplication within the subtypes. Additionally, the material used for Shingle Removal must be the same as that used for Shingle Installation to maintain consistency across the roofing process. Each subtype provides options, and the choice among them doesn't impact the outcome, provided it adheres to the consistency rule. Examples of output estimates are provided to illustrate how the rules apply in practical scenarios, demonstrating the application of these guidelines in compiling detailed roofing estimates.
 
-### Rule Set:
+### Rule Set For Roofing Estimates:
 
 - If, when calculating the total measurements for any specific item in an estimate, the result equals zero, that item should not be included in the final estimate document. This rule ensures that only items with actual, measurable quantities that contribute to the roofing project are listed, thereby streamlining the estimate and avoiding the inclusion of unnecessary or non-existent elements. This helps maintain clarity and accuracy in the estimation process, ensuring that all listed items require attention and resources.
 
-### Example Explanation:
+### Example Explanation For Roofing Estimates:
 
 - Selection Criteria:
+
     - For each subtype (Shingle Removal, Shingle Installation, and Ridge Vent), you must select only one item. Do not choose more than one item from any subtype list.
+
 - Consistency Requirement:
+
     - The material selected for Shingle Removal must be the same as the material selected for Shingle Installation. This ensures consistency in the type of shingles being removed and installed.
+
 - Arbitrary Choice:
+
     - For each item within a subtype, you can choose either one of the options provided. It does not make a difference which one you choose, but you must ensure you follow the consistency requirement for shingle materials.
-- For Shingle Removal
+
+- For Shingle Removal:
+
     - *The material chosen for shingle removal must match the material chosen for shingle installation*
+
         - Option 1: Remove 3 tab - 25 yr. - composition shingle roofing
+
         - Option 2: Remove Laminated - comp. shingle rfg. - w/ felt
-- For Shingle Installation
+
+- For Shingle Installation:
+
     - *The material chosen for shingle installation must match the material chosen for shingle removal.*
+
         - Option 1: 3 tab - 25 yr. - composition shingle roofing
+
         - Option 2: Laminated - comp. shingle rfg. - w/out felt
-- For Ridge Vent
+
+- For Ridge Vent:
+
     - *Select one of the following options for the ridge vent:*
+
         - Option 1: R&R Continuous ridge vent - aluminum
+
         - Option 2: R&R Continuous ridge vent - shingle-over style
+
         - Option 3: R&R Ridge cap - composition shingles
+
+### Output Example One For Roofing Estimates:
+
+1. Tear off, haul and dispose of comp. shingles - 3 tab
+
+2. 3 tab - 25 yr. - composition shingle roofing
+
+3. Asphalt starter - universal starter course
+
+4. Roofing felt - 15 lb.
+
+5. Ice & Water Barrier
+
+6. Continuous ridge vent - aluminum
+
+7. R&R Drip Edge
+
+8. R&R Counterflashing - Apron Flashing
+
+9. Step flashing
+
+10. Remove Additional charge for steep roof - 7/12 to 9/12 slope
+
+11. Additional charge for steep roof - 7/12 to 9/12 slope
+
+### Output Example Two For Roofing Estimates:
+
+1. Remove Laminated - comp. shingle rfg. - w/ felt
+
+2. Laminated - comp. shingle rfg. - w/out felt
+
+3. Asphalt starter - universal starter course
+
+4. Roofing felt - 15 lb.
+
+5. Ice & Water Barrier
+
+6. R&R Ridge cap - composition shingles
+
+7. R&R Drip Edge
+
+8. Remove Additional charge for steep roof - 7/12 to 9/12 slope
+
+9. Additional charge for steep roof - 7/12 to 9/12 slope
+
+10. Remove Additional charge for steep roof - 10/12 to 12/12 slope
+
+11. Additional charge for steep roof - 10/12 to 12/12 slope
+
+### Output Example Three For Roofing Estimates:
+
+1. Tear off, haul and dispose of comp. shingles - 3 tab
+
+2. 3 tab - 25 yr. -
+
+ composition shingle roofing
+
+3. Asphalt starter - universal starter course
+
+4. Roofing felt - 15 lb.
+
+5. Ice & Water Barrier
+
+6. R&R Continuous ridge vent - shingle-over style
+
+7. R&R Drip Edge
+
+---
+
+### Xactimate Line Items Formulas For Siding Estimates:
+
+This document outlines how to use the Xactimate software to generate detailed estimates for various Siding tasks. It includes formulas that use data inputs from technologies like Hover, which provide detailed aerial measurements of roofs. Each task or material required for the siding project is listed with a corresponding formula that calculates the necessary quantities or dimensions, ensuring precise estimates for billing and insurance purposes.
+
+1. **R&R Siding - aluminum (.024 thickness)**
+
+    - The calculation for R&R Siding - aluminum (.024 thickness) is based on multiplying the total Total Siding Facades by 1.
+
+    - **Hover Formula:** Facades × 1.00
+
+2. **House wrap (air/moisture barrier)**
+
+    - The calculation for **House wrap (air/moisture barrier)** is based on multiplying the total Total Siding Facades by 1.
+
+    - **Hover Formula:** Facades × 1.00
+
+3. **Fanfold foam insulation board - 3/8"**
+
+    - The calculation for **Fanfold foam insulation board - 3/8"** is based on multiplying the total Total Siding Facades by 1.
+
+    - **Hover Formula:** Facades × 1.00
+
+4. **Scaffolding setup and take down - (per hour/section)**
+
+    - To calculate the scaffolding setup and takedown time per hour/section, first identify all elevations under the siding. Exclude any elevation that is less than 50 square feet. For each elevation that is 50 square feet or larger, add 2 hours to the total time. In other words, only consider elevations that meet or exceed 50 square feet, and for each of these valid elevations, add 2 hours to the overall scaffolding setup and takedown time.
+
+    - **Hover Formula:** (Number of siding elevations that are 50 square feet or larger) × 2.00 Hours
 
 ### Output Example One:
 
-1. Tear off, haul and dispose of comp. shingles - 3 tab
-2. 3 tab - 25 yr. - composition shingle roofing
-3. Asphalt starter - universal starter course
-4. Roofing felt - 15 lb.
-5. Ice & Water Barrier
-6. Continuous ridge vent - aluminum
-7. R&R Drip Edge
-8. R&R Counterflashing - Apron Flashing
-9. Step flashing
-10. Remove Additional charge for steep roof - 7/12 to 9/12 slope
-11. Additional charge for steep roof - 7/12 to 9/12 slope
-    
+1. **R&R Siding - aluminum (.024 thickness)**
 
-### Output Example Two:
+    - Quantity:
 
-1. Remove Laminated - comp. shingle rfg. - w/ felt
-2. Laminated - comp. shingle rfg. - w/out felt 
-3. Asphalt starter - universal starter course  
-4. Roofing felt - 15 lb.   
-5. Ice & Water Barrier    
-6. R&R Ridge cap - composition shingles    
-7. R&R Drip Edge    
-8. Remove Additional charge for steep roof - 7/12 to 9/12 slope    
-9. Additional charge for steep roof - 7/12 to 9/12 slope    
-10. Remove Additional charge for steep roof - 10/12 to 12/12 slope   
-11. Additional charge for steep roof - 10/12 to 12/12 slope
-    
+2. **House wrap (air/moisture barrier)**
 
-### Output Example Three:
+    - Quantity:
 
-1. Tear off, haul and dispose of comp. shingles - 3 tab
-2. 3 tab - 25 yr. - composition shingle roofing
-3. Asphalt starter - universal starter course
-4. Roofing felt - 15 lb.
-5. Ice & Water Barrier
-6. R&R Continuous ridge vent - shingle-over style
-7. R&R Drip Edge
+3. **Fanfold foam insulation board - 3/8"**
+
+    - Quantity:
+
+4. **Scaffolding setup and take down - (per hour/section)**
+
+    - Quantity:

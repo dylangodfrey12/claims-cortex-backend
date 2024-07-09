@@ -5,7 +5,7 @@
 # EJ stands for "Email Jest"
 
 
-import openai
+from openai import OpenAI
 # Import the load_system_prompt and get_adjuster_email functions from the email_upload module
 from email_upload import load_system_prompt, get_adjuster_email
 
@@ -14,10 +14,8 @@ class EmailJest:
     # Initialize the EmailArgumentSelector instance
     def __init__(self):
         # Create an instance of the OpenAI ChatCompletion client
-        self.client = openai.ChatCompletion()
-        # Set the OpenAI API key
-        api_key = "sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf"
-        openai.api_key = api_key
+        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
+
 
     # Define the extract_arguments method to extract arguments from the adjuster's email
     def extract_arguments(self,adjuster_email):
@@ -48,8 +46,9 @@ class EmailJest:
         ]
 
         # Call the create method of the OpenAI ChatCompletion client to generate a response
-        response = self.client.create(
+        response = self.client.chat.completions.create(
             model="gpt-4o",  # Specify the model to use
+            temperature=0, 
             messages=messages  # Pass the list of messages
         )
 

@@ -12,14 +12,24 @@ class ArgumentSummarizer:
         api_key = "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"
         self.client = anthropic.Anthropic(api_key=api_key)
     
-    def summarize_arguments(self, arguments):
+    def summarize_arguments(self, full_arguments, Difference):
         # Specify the path to the system prompt file
         system_prompt_path = "AS_systemprompt.txt"
         # Load the system prompt from the file
         system_prompt = load_system_prompt(system_prompt_path)
         
         # Define the user message
-        user_message = f"Please follow the system prompt based on the following \n\n{arguments}"
+        user_message = f"""
+        ### General Rules to follow:
+            **Rule One**: You are supposed to act like you are in person talking with the contractor you are helping. You are not writing an email to the contractor you are helping.
+
+            Content to Include:
+            *The specific missing items that need to be argued for, as indicated by what is below ensure these are idendical in the output as they are in the input:*
+            {Difference}
+
+            *The complete, fleshed out arguments that you must incorporate into the email, as provided below:*
+            {full_arguments}
+"""
         
         # Send a message to the Claude 3 Opus model
         response = self.client.messages.create(
