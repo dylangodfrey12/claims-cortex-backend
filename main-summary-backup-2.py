@@ -8,6 +8,7 @@ from typing import Optional, List, Dict, Any
 import nest_asyncio
 import json
 
+import re
 from Xfile_upload import extract_text_from_pdf as extract_text_from_xfile
 from Mfile_upload import extract_text_from_pdf as extract_text_from_mfile
 from EASllm import EmailArgumentSelector
@@ -33,6 +34,7 @@ import asyncio
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
+from sor_llm import SorEvaluator
 
 app = FastAPI()
 
@@ -118,8 +120,6 @@ async def handle_send_email_with_attachments(email_request: MailerRequest, backg
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-
 @app.post("/generateFromPDF/")
 async def generateFromPDF(
     estimate_pdf: UploadFile = File(...), 
@@ -144,101 +144,40 @@ async def generateFromPDF(
             buffer.write(property_pdf.file.read())
 
         xactimate_extractor = XactimateExtractor()
-
         insurance_estimate = xactimate_extractor.extract_estimate(estimate_pdf_path)
-        print("Insurance Company's Estimate:")
-        # print(insurance_estimate)
-        # print()
+        
+        
+        sor_director = SorEvaluator()
+        # returns IC type
+        sor_director_repair_type = await sor_director.run_and_compare_ic_determiner(insurance_estimate)
+        
+        result = await sor_director.route_arguments_from_determiner(sor_director_repair_type,  insurance_estimate, property_pdf_path)
+       # Access the return values
+        logger.debug(result)
 
-        measurement_extractor = MeasurementExtractor()
-        contractor_measurements = measurement_extractor.extract_measurements(property_pdf_path)
-        print("Extracted Measurements:")
-        # print(contractor_measurements)
-        # print()
-
-        contractor_estimate_generator = ContractorEstimateGenerator()
-        contractor_estimate = contractor_estimate_generator.generate_estimate(contractor_measurements)
-        print("Contractor's Estimate:")
-        # print(contractor_estimate)
-        # print()
-
-        comparator = EstimateComparator()
-
-    # Compare the estimates using Cllm.py
-        differences = comparator.compare_estimates(contractor_estimate, insurance_estimate)
-        print("Differences between Contractor's and Insurance Company's Estimates:")
-        # print(differences)
-        # print()
-
-    # Create an instance of the ArgumentGenerator from Dllm.py
-        argument_generator = ArgumentSelector()
-
-    # Generate arguments based on the differences using Dllm.py
-        arguments = argument_generator.generate_arguments(differences)
-        # print("Selected Arguments to be Distributed to Master Models:")
-        # print(arguments)
-        # print()
-
-    # Create an instance of the ArgumentOrganizer
-        argument_organizer = ArgumentOrganizer()
-
-    # Organize the arguments using AOllm.py
-        organized_arguments = argument_organizer.organize_arguments(arguments)
-        # print("Organized Arguments:")
-        # print(organized_arguments)
-        # print()
-
-    # Create an instance of the RetrievalProcessor
-        retrieval_processor = RetrievalProcessor()
-
-    # Process the organized arguments using R.py
-        retrieval_processor.process_components(organized_arguments)
-        print()
-
-    # Print the full arguments
-        # print("Full Arguments:")
-        # print(retrieval_processor.full_arguments)
-
-    # Create an instance of the ArgumentSummarizer
-        argument_summarizer = ArgumentSummarizer()
-
-    # Summarize the organized arguments using ASllm.py
-        summary_text = argument_summarizer.summarize_arguments(organized_arguments)
-        print("Summary of Arguments:")
-        print(summary_text)
-        print()
-
-        # retrieval_evidence_processor = RetrievalEvidenceProcessor()
-
-        #   # Process the organized arguments using RE.py
-        # retrieval_evidence_processor.process_components(organized_arguments)
-        # print()
-
-        # # Print the full evidence
-        # print("Full Evidence:")
-        # print(retrieval_evidence_processor.full_evidence)
-
+        summary_text, full_evidence , audio_url, full_arguments, differences, organized_arguments = result
+    
+    #     measurement_extractor = MeasurementExtractor()
+    # 
         # Remove the temporary files
         os.remove(estimate_pdf_path)
         os.remove(property_pdf_path)
         
-        # email_summary = summarize_email(differences, summary_text, retrieval_processor.full_arguments)
-        # print("Email Summary:")
-        # print(email_summary)
-        # print()
-
-        audio_url = generate_audio(summary_text)
+        # todo:
+        # audio_url = generate_audio(summary_text)
         
         logger.debug("Summary generated successfully.")
         
         # return {"summary": summary_text, "email":email_summary, "links":retrieval_evidence_processor.full_evidence , "audio_url": audio_url}
-        return {"summary": summary_text, "organized_arguments": organized_arguments,"audio_url": audio_url, "full_arguments":retrieval_processor.full_arguments, "differences":differences }
-        # return {"summary": summary_text, "organized_arguments": organized_arguments, "full_arguments":retrieval_processor.full_arguments, "differences":differences }
-
+        return {"summary": summary_text, "organized_arguments": organized_arguments,"audio_url": audio_url, "full_arguments":full_arguments, "differences":differences }
 
     except Exception as e:
         logger.error(f"Error in summarizing: {e}")
         return {"error": str(e)}
+
+
+
+
 
 @app.post("/emailPDF/")
 async def summarize(
@@ -258,13 +197,20 @@ async def summarize(
         # Print the full evidence
         # print("Full Evidence:")
         # print(retrieval_evidence_processor.full_evidence)
-        
-        email_summary = summarize_email(differences, summary, full_arguments)
+        pattern = r'\bshingle\b'
+
+        # Finding matches
+        if re.search(pattern, differences):
+            isSiding = True
+        else:
+            isSiding = False
+            
+        email_summary = summarize_email(differences, summary, full_arguments,isSiding)
         print("Email Summary:")
         print(email_summary)
         print()
 
-        # audio_url = generate_audio(summary_text)
+        audio_url =  "Ineed the eleven lab password :P"#generate_audio(summary_text)
         
         logger.debug("Summary generated successfully.")
         
@@ -274,6 +220,161 @@ async def summarize(
     except Exception as e:
         logger.error(f"Error in summarizing: {e}")
         return {"error": str(e)}
+
+# @app.post("/generateFromPDF/")
+# async def generateFromPDF(
+#     estimate_pdf: UploadFile = File(...), 
+#     property_pdf: UploadFile = File(...), 
+# ):
+#     try:
+#         logger.debug("Received request to summarize.")
+#         logger.debug(f"Received request to summarize with files: estimate_pdf={estimate_pdf.filename}, property_pdf={property_pdf.filename}")
+        
+#         # Create a temporary directory
+#         temp_dir = "temp_files"
+#         os.makedirs(temp_dir, exist_ok=True)
+        
+#         # Save the uploaded PDFs temporarily in the temporary directory
+#         estimate_pdf_path = os.path.join(temp_dir, estimate_pdf.filename)
+#         property_pdf_path = os.path.join(temp_dir, property_pdf.filename)
+        
+#         with open(estimate_pdf_path, "wb") as buffer:
+#             buffer.write(estimate_pdf.file.read())
+        
+#         with open(property_pdf_path, "wb") as buffer:
+#             buffer.write(property_pdf.file.read())
+
+#         xactimate_extractor = XactimateExtractor()
+
+#         insurance_estimate = xactimate_extractor.extract_estimate(estimate_pdf_path)
+#         print("Insurance Company's Estimate:")
+#         # print(insurance_estimate)
+#         # print()
+
+#         measurement_extractor = MeasurementExtractor()
+#         contractor_measurements = measurement_extractor.extract_measurements(property_pdf_path)
+#         print("Extracted Measurements:")
+#         # print(contractor_measurements)
+#         # print()
+
+#         contractor_estimate_generator = ContractorEstimateGenerator()
+#         contractor_estimate = contractor_estimate_generator.generate_estimate(contractor_measurements)
+#         print("Contractor's Estimate:")
+#         # print(contractor_estimate)
+#         # print()
+
+#         comparator = EstimateComparator()
+
+#     # Compare the estimates using Cllm.py
+#         differences = comparator.compare_estimates(contractor_estimate, insurance_estimate)
+#         print("Differences between Contractor's and Insurance Company's Estimates:")
+#         # print(differences)
+#         # print()
+
+#     # Create an instance of the ArgumentGenerator from Dllm.py
+#         argument_generator = ArgumentSelector()
+
+#     # Generate arguments based on the differences using Dllm.py
+#         arguments = argument_generator.generate_arguments(differences)
+#         # print("Selected Arguments to be Distributed to Master Models:")
+#         # print(arguments)
+#         # print()
+
+#     # Create an instance of the ArgumentOrganizer
+#         argument_organizer = ArgumentOrganizer()
+
+#     # Organize the arguments using AOllm.py
+#         organized_arguments = argument_organizer.organize_arguments(arguments)
+#         # print("Organized Arguments:")
+#         # print(organized_arguments)
+#         # print()
+
+#     # Create an instance of the RetrievalProcessor
+#         retrieval_processor = RetrievalProcessor()
+
+#     # Process the organized arguments using R.py
+#         retrieval_processor.process_components(organized_arguments)
+#         print()
+
+#     # Print the full arguments
+#         # print("Full Arguments:")
+#         # print(retrieval_processor.full_arguments)
+
+#     # Create an instance of the ArgumentSummarizer
+#         argument_summarizer = ArgumentSummarizer()
+
+#     # Summarize the organized arguments using ASllm.py
+#         summary_text = argument_summarizer.summarize_arguments(organized_arguments)
+#         print("Summary of Arguments:")
+#         print(summary_text)
+#         print()
+
+#         # retrieval_evidence_processor = RetrievalEvidenceProcessor()
+
+#         #   # Process the organized arguments using RE.py
+#         # retrieval_evidence_processor.process_components(organized_arguments)
+#         # print()
+
+#         # # Print the full evidence
+#         # print("Full Evidence:")
+#         # print(retrieval_evidence_processor.full_evidence)
+
+#         # Remove the temporary files
+#         os.remove(estimate_pdf_path)
+#         os.remove(property_pdf_path)
+        
+#         # email_summary = summarize_email(differences, summary_text, retrieval_processor.full_arguments)
+#         # print("Email Summary:")
+#         # print(email_summary)
+#         # print()
+
+#         audio_url = generate_audio(summary_text)
+        
+#         logger.debug("Summary generated successfully.")
+        
+#         # return {"summary": summary_text, "email":email_summary, "links":retrieval_evidence_processor.full_evidence , "audio_url": audio_url}
+#         return {"summary": summary_text, "organized_arguments": organized_arguments,"audio_url": audio_url, "full_arguments":retrieval_processor.full_arguments, "differences":differences }
+#         # return {"summary": summary_text, "organized_arguments": organized_arguments, "full_arguments":retrieval_processor.full_arguments, "differences":differences }
+
+
+#     except Exception as e:
+#         logger.error(f"Error in summarizing: {e}")
+#         return {"error": str(e)}
+
+# @app.post("/emailPDF/")
+# async def summarize(
+#    summary: str = Form(...),
+#    organized_arguments: str = Form(...),
+#    full_arguments: str = Form(...),
+#    differences: str = Form(...)
+# ):
+#     try:
+#         logger.debug("Received request to summarize the email.")
+        
+#         retrieval_evidence_processor = RetrievalEvidenceProcessor()
+#           # Process the organized arguments using RE.py
+#         retrieval_evidence_processor.process_components(organized_arguments)
+#         print()
+
+#         # Print the full evidence
+#         # print("Full Evidence:")
+#         # print(retrieval_evidence_processor.full_evidence)
+        
+#         email_summary = summarize_email(differences, summary, full_arguments)
+#         print("Email Summary:")
+#         print(email_summary)
+#         print()
+
+#         # audio_url = generate_audio(summary_text)
+        
+#         logger.debug("Summary generated successfully.")
+        
+#         # return {"summary": summary_text, "email":email_summary, "links":retrieval_evidence_processor.full_evidence , "audio_url": audio_url}
+#         return {"email": email_summary, "links":retrieval_evidence_processor.full_evidence  }
+
+#     except Exception as e:
+#         logger.error(f"Error in summarizing: {e}")
+#         return {"error": str(e)}
 
 @app.post("/generateFromEmail/")
 async def generateFromEmail(adjuster_email: str = Form(...)):
