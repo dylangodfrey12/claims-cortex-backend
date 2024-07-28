@@ -10,7 +10,7 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.schema import BaseMessage
 
 # Set API keys for OpenAI and Pinecone
-os.environ["OPENAI_API_KEY"] = "sk-proj-Rqy3FSVajisBJM2F3ZumT3BlbkFJTn6IhtAIHSzzvwpSrUke"
+os.environ["OPENAI_API_KEY"] = "sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry"
 os.environ["PINECONE_API_KEY"] = "def37dc3-c862-48be-abb6-dcc6c6a6cac0"
 
 # Initialize OpenAI language model (ChatOpenAI) and embeddings (OpenAIEmbeddings)

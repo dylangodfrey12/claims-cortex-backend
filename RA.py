@@ -4,7 +4,7 @@ from langchain_community.vectorstores import Pinecone
 from langchain.embeddings import OpenAIEmbeddings
 
 # Set API keys
-os.environ["OPENAI_API_KEY"] = "sk-proj-Rqy3FSVajisBJM2F3ZumT3BlbkFJTn6IhtAIHSzzvwpSrUke"
+os.environ["OPENAI_API_KEY"] = "sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry"
 os.environ["PINECONE_API_KEY"] = "def37dc3-c862-48be-abb6-dcc6c6a6cac0"
 
 # Initialize embeddings
@@ -13,10 +13,16 @@ embeddings = OpenAIEmbeddings()
 # Load vector store and retriever
 index_name = "testroof"
 namespace = "roofing"
+
+def print_to_text_file(text_to_print):
+        with open('output.txt', 'a') as f:
+            print(text_to_print, file=f)
+            
 try:
     vectorstore = Pinecone.from_existing_index(index_name, embeddings, namespace=namespace)
+    print_to_text_file(vectorstore)
     retriever = vectorstore.as_retriever(search_kwargs={"k": 1})
-
+    print_to_text_file(vectorstore)
     # Print troubleshooting information
     print(f"Number of items in vectorstore: {len(vectorstore.similarity_search('', k=1))}")
     print(f"Retriever index: {retriever.vectorstore._index}")
@@ -35,11 +41,11 @@ class RetrievalProcessor:
     def process_components(self, organized_components):
         # Split the organized components into a list
         components = [component.strip() for component in organized_components.split('\n') if component.strip()]
-
+        print_to_text_file(f"All RA.py components: {components}")
         # Process each component
         for component in components:
             print(f"Processing component: {component}")
-
+            print_to_text_file(f"Processing component: {component}")
             try:
                 # Retrieve relevant documents for the component
                 docs = retriever.get_relevant_documents(component)

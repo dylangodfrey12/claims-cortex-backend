@@ -5,14 +5,21 @@
 
 from openai import OpenAI
 from Mfile_upload import load_system_prompt
+import re
 
+def print_to_text_file(text_to_print):
+        with open('output.txt', 'a') as f:
+            print(text_to_print, file=f)
+            
 class ArgumentOrganizer:
     def __init__(self):
-        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
-    
+        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
+        
+   
+            
     def organize_arguments(self, arguments):
         # Define the user message
-        user_message = f"Please organize the following arguments in a logical order:\n\n{arguments}"
+        user_message = f"Please organize the following arguments in a logical order and do not include markdown and only return it in regular:\n\n{arguments}"
         
         # Specify the path to the system prompt file
         system_prompt_path = "AO_systemprompt.txt"
@@ -32,8 +39,11 @@ class ArgumentOrganizer:
         )
         # Extract the assistant's message content from the response
         organized_arguments = response.choices[0].message.content
-        
+        # Remove the 'markdown\n-' and the very last '\n'
+        organized_arguments_cleaned_text = re.sub(r"markdown\\n-", "", organized_arguments)
+        organized_arguments_cleaned_text = re.sub(r"\\n```'$", "```'", organized_arguments_cleaned_text)
         # Return the organized arguments
-        return organized_arguments
+        print_to_text_file(organized_arguments_cleaned_text)
+        return organized_arguments_cleaned_text
 
     

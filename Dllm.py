@@ -9,7 +9,7 @@ from Mfile_upload import load_system_prompt
 
 class ArgumentSelector:
     def __init__(self):
-        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
+        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
     
     def generate_arguments(self, differences):
         # Define the user message with the differences from Cllm.py

@@ -14,7 +14,7 @@ class EmailJest:
     # Initialize the EmailArgumentSelector instance
     def __init__(self):
         # Create an instance of the OpenAI ChatCompletion client
-        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
+        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
 
 
     # Define the extract_arguments method to extract arguments from the adjuster's email

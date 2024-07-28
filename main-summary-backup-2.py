@@ -164,7 +164,7 @@ async def generateFromPDF(
         os.remove(property_pdf_path)
         
         # todo:
-        # audio_url = generate_audio(summary_text)
+        audio_url = generate_audio(summary_text)
         
         logger.debug("Summary generated successfully.")
         

@@ -9,7 +9,7 @@ from Mfile_upload import load_system_prompt
 class ArgumentSummarizer:
     def __init__(self):
         # Initialize the Anthropic client
-        api_key = "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"
+        api_key = "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"
         self.client = anthropic.Anthropic(api_key=api_key)
     
     def summarize_arguments(self, full_arguments, Difference):

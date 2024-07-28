@@ -8,7 +8,7 @@ from Mfile_upload import load_system_prompt
 
 def summarize_email(Difference, summary_text, full_arguments, isSiding: bool):
     # Initialize the Anthropic client
-    api_key = "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"
+    api_key = "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"
     client = anthropic.Anthropic(api_key=api_key)
     
     if isSiding:

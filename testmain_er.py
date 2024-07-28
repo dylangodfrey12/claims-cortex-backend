@@ -22,7 +22,7 @@ from sor_llm import SorEvaluator
 from sm_llm import SmEvaluator
 from se_llm import SeEvaluator
 from main import generateFrpmEmail
-
+import re
 # pdf_path_estimate = r"C:\Users\dylan\Downloads\BackendMVP\test_data_6_estimate.pdf"
 # pdf_path_measurements = r"C:\Users\dylan\Downloads\BackendMVP\test_data_6_measurements.pdf"
 
@@ -172,10 +172,38 @@ async def generate_fs_estimate():
     # open_links(full_evidence)
     return result
 
+async def generate_ir_estimate():
+    pdf_path_estimate = r"C:\Users\dylan\claims-cortex-backend\IRE_Two.pdf"
+    pdf_path_measurements = r"C:\Users\dylan\claims-cortex-backend\IRM_Two.pdf"
+    insurance_estimate= process_estimates_and_measurements(pdf_path_estimate)
+
+    # ic dIRECTOR START
+    sor_director = SorEvaluator()
+    # returns IC type
+    sor_director_repair_type = await sor_director.run_and_compare_ic_determiner(insurance_estimate)
+    
+
+    result = await sor_director.route_arguments_from_determiner(sor_director_repair_type,  insurance_estimate, pdf_path_measurements)
+       # Access the return values
+    summary_text,  full_evidence , audio_url, full_arguments, differences, organized_arguments = result
+    
+    # Do something with the results
+    print("Full Arguments:", full_arguments)
+    print("Full Evidence:", full_evidence)
+
+    # Summarize the organized arguments using ASllm.py
+    print_to_text_file("Summary of Arguments:")
+    print_to_text_file(summary_text)
+    print_to_text_file("Full Evidence:")
+    print_to_text_file(full_evidence)
+
+    # Open the links in the full evidence
+    # open_links(full_evidence)
+    return result
 
 async def generate_fr_estimate():
-    pdf_path_estimate = r"C:\Users\dylan\Downloads\BackendMVP\test_data_6_estimate.pdf"
-    pdf_path_measurements = r"C:\Users\dylan\Downloads\BackendMVP\test_data_6_measurements.pdf"
+    pdf_path_estimate = r"C:\Users\dylan\claims-cortex-backend\FRE_Two.pdf"
+    pdf_path_measurements = r"C:\Users\dylan\claims-cortex-backend\FRM_Two.pdf"
     
     insurance_estimate= process_estimates_and_measurements(pdf_path_estimate)
 
@@ -205,9 +233,13 @@ async def generate_fr_estimate():
 
 
 async def generate_se_report():
-    pdf_path_estimate = r"C:\Users\dylan\Downloads\BackendMVP\td1_estimate_se.pdf"
-    pdf_path_measurements = r"C:\Users\dylan\Downloads\BackendMVP\td1_measurements_se.pdf"
-    
+    pdf_path_estimate = r"C:\Users\dylan\claims-cortex-backend\FRE_One.pdf"
+    pdf_path_measurements = r"C:\Users\dylan\claims-cortex-backend\FRM_One.pdf"
+    text = "'```markdown\\n- Siding - Scaffolding setup and take down - (per hour/section)\\n- Inclusion of Fanfold Argument\\n```'"
+
+        # Remove the 'markdown\n-' and the very last '\n'
+    cleaned_text = re.sub(r"markdown\\n-", "", text)
+    cleaned_text = re.sub(r"\\n```'$", "```'", cleaned_text)
     insurance_estimate= process_estimates_and_measurements(pdf_path_estimate)
 
     # ic dIRECTOR START
@@ -372,5 +404,9 @@ def process_estimates_and_measurements(pdf_path_estimate):
 #     return insurance_estimate, contractor_measurements, contractor_estimate
 
 
+async def main():
+    tasks = [generate_se_report() for _ in range(3)]
+    await asyncio.gather(*tasks)
+
 if __name__ == "__main__":
-    asyncio.run(generate_fr_estimate())
+    asyncio.run(main())

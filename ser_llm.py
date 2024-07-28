@@ -8,8 +8,13 @@ from openai import OpenAI
 class SerEvaluator:
     def __init__(self):
         # Initialize the OpenAI ChatCompletion client
-        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
-        
+        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
+
+
+    def print_to_text_file(self, text_to_print):
+        with open('output.txt', 'a') as f:
+            print(text_to_print, file=f)
+            
     async def SerDeterminer(self, measurements, contractor_estimate, insurance_estimate):
             user_message = f"""
                     Please compare the contractor's estimate with the insurance company's estimate.
@@ -59,6 +64,7 @@ class SerEvaluator:
             )
             # Extract the assistant's message content from the response
             repair_type = response.choices[0].message.content
+            self.print_to_text_file(repair_type)
             # Define the regex pattern
             pattern = r"\[\[(.*?)\]\]"
 

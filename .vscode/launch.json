@@ -8,7 +8,7 @@
             "name": "Python Debugger: Current File with Arguments",
             "type": "debugpy",
             "request": "launch",
-            "program": "C:\\Users\\dylan\\development\\github\\claims-cortex-backend\\testmain_er.py",
+            "program": "C:\\Users\\dylan\\claims-cortex-backend\\testmain_er.py",
             "console": "integratedTerminal",
         }
     ]

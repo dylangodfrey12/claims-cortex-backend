@@ -5,7 +5,7 @@ from cloudinary.uploader import upload
 from elevenlabs import VoiceSettings
 from elevenlabs.client import ElevenLabs
 
-ELEVENLABS_API_KEY = "sk_909b9d57af47b51c54821500aa462a19d9b3dc3358ce3bce"
+ELEVENLABS_API_KEY = "sk_6be54a6998bff0001215adccb4c0e143ee5b34f221396119"
 client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
 
 # Set Cloudinary configuration

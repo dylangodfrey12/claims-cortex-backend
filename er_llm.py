@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 class ErIcGenerator:
     def __init__(self):
         # Initialize the OpenAI ChatCompletion client
-        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
+        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
     # we need to determine if this is a single slope, individual repair, or full replacement
     
 # Define the print_to_text_file method

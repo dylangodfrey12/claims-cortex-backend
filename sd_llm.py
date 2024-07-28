@@ -7,8 +7,12 @@ from openai import OpenAI
 class SdEvaluator:
     def __init__(self):
         # Initialize the OpenAI ChatCompletion client
-        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
-        
+        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
+       
+    def print_to_text_file(self, text_to_print):
+        with open('output.txt', 'a') as f:
+            print(text_to_print, file=f) 
+            
     async def SdDeterminer(self, differences, isRoofing:bool):
             user_message = f"""
                             {differences}
@@ -16,6 +20,7 @@ class SdEvaluator:
         Ensure that each argument category is listed only once in the output, even if multiple line items map to the same argument.
 
         Ensure the output is only the difference and they are bulleted like so, anything else is wrong:
+        Ensure that every bullet point has an associated output or argument. Do not include any empty bullet points.
         -
         -
         -
@@ -49,7 +54,8 @@ class SdEvaluator:
             arguments = response.choices[0].message.content
             # Define the regex pattern
             # pattern = r"\[\[(.*?)\]\]"
-
+            self.print_to_text_file("sdllm")
+            self.print_to_text_file(arguments)
             # # Search for the pattern in the input string
             # match = re.search(pattern, response)
 

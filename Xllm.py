@@ -9,7 +9,7 @@ from Xfile_upload import load_system_prompt, extract_text_from_pdf, get_pdf_path
 
 class XactimateExtractor:
     def __init__(self):
-        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
+        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
     
     def extract_estimate(self,estimate_pdf_path):
         # Get the path to the PDF file from Xfile_upload module

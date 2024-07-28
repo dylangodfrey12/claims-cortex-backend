@@ -37,6 +37,8 @@ from rm_llm import RmEvaluator
 from re_llm import ReEvaluator
 from ESllm import summarize_email
 from Mfile_upload import load_system_prompt
+from langsmith.wrappers import wrap_openai
+from langsmith import traceable
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -44,8 +46,7 @@ logger = logging.getLogger(__name__)
 class SorEvaluator:
     def __init__(self):
         # Initialize the OpenAI ChatCompletion client
-        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
-    
+        self.client = wrap_openai(OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry"))
     async def sor_ic_determiner(self, insurance_estimate):
         user_message = f"""
        Please review the estimate from the insurance company to determine if it is a roofing estimate or a siding estimate.

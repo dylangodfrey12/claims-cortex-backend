@@ -9,7 +9,7 @@ from openai import OpenAI
 class SmEvaluator:
     def __init__(self):
         # Initialize the OpenAI ChatCompletion client
-        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
+        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
         
     async def SmDeterminer(self, measurements_pdf_path):
             pdf_text = extract_text_from_pdf(measurements_pdf_path)

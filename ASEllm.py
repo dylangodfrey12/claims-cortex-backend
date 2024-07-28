@@ -10,15 +10,15 @@ from email_upload import load_system_prompt, get_adjuster_email
 class ArgumentSummarizerEmail:
     def __init__(self):
          #Initialize the Anthropic client
-        api_key = "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"
+        api_key = "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"
         self.client = anthropic.Anthropic(api_key=api_key)
 
           # Initialize the EmailArgumentSelector instance
     #def __init__(self):
         # Create an instance of the OpenAI ChatCompletion client
-     #   self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
+     #   self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
         # Set the OpenAI API key
-      #  api_key = "sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf"
+      #  api_key = "sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry"
        # openai.api_key = api_key
 
     # Define the extract_arguments method to extract arguments from the adjuster's email

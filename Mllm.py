@@ -17,7 +17,7 @@ class MeasurementExtractor:
         # self.client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
     
     # Initialize the OpenAI ChatCompletion client
-        self.client = OpenAI(api_key="sk-proj-aKV63t4s0QRHbWDNrzTRT3BlbkFJt1ZLd6RnSRu9ga6v9twf")
+        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
 
     
     def extract_measurements(self,property_pdf_path):
