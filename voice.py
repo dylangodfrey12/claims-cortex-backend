@@ -40,6 +40,7 @@ def generate_audio(text: str) -> str:
 
     # Upload to Cloudinary
     result = upload(save_file_path, resource_type="video")
+    print(f"{save_file_path}: A new audio file was saved successfully uploaded!")
     audio_url = result.get('url')
 
     # Delete local file after upload

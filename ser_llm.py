@@ -5,7 +5,7 @@ import re
 import asyncio
 import config
 from openai import OpenAI
-
+global_ser_result = None
 class SerEvaluator:
     def __init__(self):
         # Initialize the OpenAI ChatCompletion client
@@ -66,6 +66,8 @@ class SerEvaluator:
             # Extract the assistant's message content from the response
             repair_type = response.choices[0].message.content
             self.print_to_text_file(repair_type)
+            global global_ser_result
+            global_ser_result = repair_type
             # Define the regex pattern
             pattern = r"\[\[(.*?)\]\]"
 
@@ -84,12 +86,18 @@ class SerEvaluator:
     async def route_arguments_from_determiner(self, extracted_text, contractor_estimate, insurance_estimate, repair_type):
             er_ic_generator = ErIcGenerator()
             extracted_text = extracted_text.lower()
-            
+            result = None
             if "full siding replacement" in extracted_text:
-                return await er_ic_generator.IcDirectiveFullReplacement(contractor_estimate, insurance_estimate, False, True)
+                result = await er_ic_generator.IcDirectiveFullReplacement(contractor_estimate, insurance_estimate, False, True)
             
             if "elevation replacements" in extracted_text:
-                return await er_ic_generator.IcDirectiveSingleReplacement(contractor_estimate, insurance_estimate, True, repair_type, False)
+                result = await  er_ic_generator.IcDirectiveSingleReplacement(contractor_estimate, insurance_estimate, True, repair_type, False)
+                
+            result = list(result)
+            result.append(extracted_text)
+            result = tuple(result)
+            
+            return result
 
 
     async def run_and_compare_ic_determiner(self, measurements, contractor_estimate, insurance_estimate):

@@ -1,0 +1,13 @@
+{
+    "mssql.connections": [
+        {
+            "authenticationType": "SqlLogin",
+            "server": "tcp:cc-test-develop.database.windows.net,1433",
+            "database": "ClaimsCortex-testdb",  // Ensure this database name is correct
+            "user": "azureadmin",
+            "password": "Austin12.",
+            "savePassword": true,
+            "encrypt": "Mandatory"
+        }
+    ]
+}

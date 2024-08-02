@@ -39,6 +39,7 @@ from RA import RetrievalProcessor
 
 app = FastAPI()
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allow all origins
@@ -62,7 +63,7 @@ class VoiceRequest(BaseModel):
 class EmailRequest(BaseModel):
     summary: str
     email_arguments: str
-    email_jest: dict
+    email_jest: str
     full_arguments: str
     adjuster_email: str
 
@@ -156,7 +157,7 @@ async def generateFromPDF(
        # Access the return values
         logger.debug(result)
 
-        summary_text, full_evidence , audio_url, full_arguments, differences, organized_arguments = result
+        summary_text, full_evidence , audio_url, full_arguments, differences, organized_arguments,extracted_text = result
     
     #     measurement_extractor = MeasurementExtractor()
     # 
@@ -170,7 +171,7 @@ async def generateFromPDF(
         logger.debug("Summary generated successfully.")
         
         # return {"summary": summary_text, "email":email_summary, "links":retrieval_evidence_processor.full_evidence , "audio_url": audio_url}
-        return {"summary": summary_text, "organized_arguments": organized_arguments,"audio_url": audio_url, "full_arguments":full_arguments, "differences":differences }
+        return {"summary": summary_text, "organized_arguments": organized_arguments,"audio_url": audio_url, "full_arguments":full_arguments, "differences":differences, "repair_type":extracted_text }
 
     except Exception as e:
         logger.error(f"Error in summarizing: {e}")
@@ -181,20 +182,23 @@ async def summarize(
    summary: str = Form(...),
    organized_arguments: str = Form(...),
    full_arguments: str = Form(...),
-   differences: str = Form(...)
+   differences: str = Form(...), 
+   repair_type: str =  Form(...)
 ):
     try:
         logger.debug("Received request to summarize the email.")
-        
+        repair_type = repair_type.lower()
         retrieval_evidence_processor = RetrievalEvidenceProcessor()
           # Process the organized arguments using RE.py
         retrieval_evidence_processor.process_components(organized_arguments)
-        print()
+        print(repair_type)
 
         # Print the full evidence
         # print("Full Evidence:")
         # print(retrieval_evidence_processor.full_evidence)
         pattern = r'\bshingle\b'
+# Regular expression pattern
+        pattern2 = r'\b(full roof|siding|roof)\b'
 
         # Finding matches
         if re.search(pattern, differences):
@@ -202,12 +206,22 @@ async def summarize(
         else:
             isSiding = False
             
+            
+            # Finding matches
+        if re.search(pattern2, repair_type):
+            differences = differences
+        else:
+            differences = "None"
+            
+       
         email_summary = summarize_email(differences, summary, full_arguments,isSiding)
+        print(organized_arguments)
         print("Email Summary:")
-        print(email_summary)
+        print(differences)
+        # print(email_summary)
         print()
-
-        audio_url =  "Ineed the eleven lab password :P"#generate_audio(summary_text)
+        print(repair_type)
+        # audio_url = generate_audio(email_summary)
         
         logger.debug("Summary generated successfully.")
         
@@ -226,13 +240,10 @@ async def generateFromEmail(adjuster_email: str = Form(...)):
         email_argument_selector = EmailArgumentSelector()
         email_arguments = email_argument_selector.extract_arguments(adjuster_email)
         print("Arguments Extracted from Adjuster's Email:")
-        print(email_arguments)
 
         email_jest = EmailJest()
         adjuster_jest = email_jest.extract_arguments(adjuster_email)
         print("email Jest")
-        print(email_jest)
-
 
         retrieval_processor = RetrievalProcessor()
         retrieval_processor.process_components(email_arguments)
@@ -259,9 +270,9 @@ async def generateFromEmail(adjuster_email: str = Form(...)):
         # print(final_email)
 
         audio_url = generate_audio(summary)
-        
+        # return {"message": "Hello World"}
         # return {"message": "Email generated successfully", "summary": summary,"email":final_email,"links":retrieval_evidence_processor.full_evidence, "audio_url": audio_url}
-        return {"message": "Email generated successfully","adjuster_email":adjuster_email,"audio_url": audio_url, "summary": summary,"email_arguments":email_arguments,"email_jest":email_jest, "full_arguments": retrieval_processor.full_arguments}
+        return {"message": "Email generated successfully","adjuster_email":adjuster_email,"audio_url": audio_url, "summary": summary,"email_arguments":email_arguments,"email_jest":adjuster_jest, "full_arguments": retrieval_processor.full_arguments}
         # return {"message": "Email generated successfully","adjuster_email":adjuster_email, "summary": summary,"email_arguments":email_arguments,"email_jest":email_jest, "full_arguments": retrieval_processor.full_arguments}
 
 

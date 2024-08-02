@@ -233,8 +233,8 @@ async def generate_fr_estimate():
 
 
 async def generate_se_report():
-    pdf_path_estimate = r"C:\Users\dylan\claims-cortex-backend\FRE_One.pdf"
-    pdf_path_measurements = r"C:\Users\dylan\claims-cortex-backend\FRM_One.pdf"
+    pdf_path_estimate = r"C:\Users\dylan\claims-cortex-backend\HSE.pdf"
+    pdf_path_measurements = r"C:\Users\dylan\claims-cortex-backend\HSM.pdf"
     text = "'```markdown\\n- Siding - Scaffolding setup and take down - (per hour/section)\\n- Inclusion of Fanfold Argument\\n```'"
 
         # Remove the 'markdown\n-' and the very last '\n'
@@ -250,7 +250,7 @@ async def generate_se_report():
 
     result = await sor_director.route_arguments_from_determiner(sor_director_repair_type,  insurance_estimate, pdf_path_measurements)
        # Access the return values
-    summary_text,  full_evidence , audio_url, full_arguments, differences, organized_arguments = result
+    summary_text,  full_evidence , audio_url, full_arguments, differences, organized_arguments,extracted_text = result
     
     # Do something with the results
     print("Full Arguments:", full_arguments)
@@ -409,4 +409,4 @@ async def main():
     await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(generate_se_report())
