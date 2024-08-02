@@ -3,12 +3,13 @@ from Mfile_upload import load_system_prompt
 from er_llm import ErIcGenerator
 import re
 import asyncio
+import config
 from openai import OpenAI
 
 class SerEvaluator:
     def __init__(self):
         # Initialize the OpenAI ChatCompletion client
-        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
+        self.client = OpenAI(api_key=config.OPENAI_API_KEY)
 
 
     def print_to_text_file(self, text_to_print):

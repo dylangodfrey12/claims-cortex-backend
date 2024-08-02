@@ -1,18 +1,18 @@
 import os
 import uuid
 import cloudinary
+import config
 from cloudinary.uploader import upload
 from elevenlabs import VoiceSettings
 from elevenlabs.client import ElevenLabs
 
-ELEVENLABS_API_KEY = "sk_6be54a6998bff0001215adccb4c0e143ee5b34f221396119"
-client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
+client = ElevenLabs(api_key=config.ELEVENLABS_API_KEY)
 
 # Set Cloudinary configuration
 cloudinary.config(
     cloud_name='dzfz5d8a2',
-    api_key='193352749469358',
-    api_secret='SkLA7oQ-KWh1KdDwbQJOXLzLMcg'
+    api_key=config.CLOUDINARY_API_KEY,
+    api_secret=config.CLOUDINARY_API_KEY_SECRET
 )
 
 def generate_audio(text: str) -> str:

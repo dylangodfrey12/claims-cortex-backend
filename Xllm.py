@@ -4,12 +4,13 @@
 # The model will be used to extract data from Xactimate Estimates.
 # The prefix "X" stands for Xactimate.
 
+import config
 from openai import OpenAI
 from Xfile_upload import load_system_prompt, extract_text_from_pdf, get_pdf_path
 
 class XactimateExtractor:
     def __init__(self):
-        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
+        self.client = OpenAI(api_key=config.OPENAI_API_KEY)
     
     def extract_estimate(self,estimate_pdf_path):
         # Get the path to the PDF file from Xfile_upload module

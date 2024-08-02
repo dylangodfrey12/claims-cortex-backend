@@ -1,3 +1,4 @@
+import config
 from openai import OpenAI
 import re
 import asyncio
@@ -46,7 +47,7 @@ logger = logging.getLogger(__name__)
 class SorEvaluator:
     def __init__(self):
         # Initialize the OpenAI ChatCompletion client
-        self.client = wrap_openai(OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry"))
+        self.client = wrap_openai(OpenAI(api_key=config.OPENAI_API_KEY))
     async def sor_ic_determiner(self, insurance_estimate):
         user_message = f"""
        Please review the estimate from the insurance company to determine if it is a roofing estimate or a siding estimate.

@@ -1,3 +1,4 @@
+import config
 from openai import OpenAI
 import re
 import asyncio
@@ -41,7 +42,7 @@ logger = logging.getLogger(__name__)
 class ErIcGenerator:
     def __init__(self):
         # Initialize the OpenAI ChatCompletion client
-        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
+        self.client = OpenAI(api_key=config.OPENAI_API_KEY)
     # we need to determine if this is a single slope, individual repair, or full replacement
     
 # Define the print_to_text_file method

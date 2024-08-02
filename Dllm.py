@@ -4,12 +4,13 @@
 # and generating arguments based on the differences between the contractor's and insurance company's estimates.
 # The prefix "D" stands for Dispatching.
 
+import config
 from openai import OpenAI
 from Mfile_upload import load_system_prompt
 
 class ArgumentSelector:
     def __init__(self):
-        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
+        self.client = OpenAI(api_key=config.OPENAI_API_KEY)
     
     def generate_arguments(self, differences):
         # Define the user message with the differences from Cllm.py

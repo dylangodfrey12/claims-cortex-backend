@@ -2,7 +2,7 @@
 
 # This script organizes the arguments in order so they have a logical cohesion 
 # The prefix "AO" stands for Argument Organizer.
-
+import config
 from openai import OpenAI
 from Mfile_upload import load_system_prompt
 import re
@@ -13,8 +13,7 @@ def print_to_text_file(text_to_print):
             
 class ArgumentOrganizer:
     def __init__(self):
-        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
-        
+        self.client = OpenAI(api_key=config.OPENAI_API_KEY)
    
             
     def organize_arguments(self, arguments):

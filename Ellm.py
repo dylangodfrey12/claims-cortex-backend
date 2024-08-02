@@ -4,13 +4,14 @@
 # Xactimate estimate
 # The prefix "E" stands for Estimate.
 
+import config
 from openai import OpenAI
 from Mfile_upload import load_system_prompt
 
 class EstimateGenerator:
     def __init__(self):
         # Initialize the OpenAI ChatCompletion client
-        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
+        self.client = OpenAI(api_key=config.OPENAI_API_KEY)
     
     def generate_estimate(self, measurements):
         # Define the user message with the measurements from Mllm.py

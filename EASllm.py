@@ -5,12 +5,13 @@
 # EAS stands for "Email Argument Selector"
 
 
+import config
 from openai import OpenAI
 from email_upload import load_system_prompt
 
 class EmailArgumentSelector:
     def __init__(self):
-        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
+        self.client = OpenAI(api_key=config.OPENAI_API_KEY)
 
 
     def extract_arguments(self, adjuster_email):

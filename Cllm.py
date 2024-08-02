@@ -3,11 +3,12 @@ from Xllm import XactimateExtractor as InsuranceGenerator
 from Mllm import MeasurementExtractor as MeasurementGenerator
 from Ellm import EstimateGenerator as ContractorEstimateGenerator
 from Mfile_upload import load_system_prompt
+import config
 from openai import OpenAI
 
 class EstimateComparator:
     def __init__(self):
-        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
+        self.client = OpenAI(api_key=config.OPENAI_API_KEY)
     
     def compare_estimates(self, contractor_estimate, insurance_estimate):
         # Define the user message with the estimates from Ellm.py and Xllm.py

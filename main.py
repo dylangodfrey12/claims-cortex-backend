@@ -245,9 +245,6 @@ async def generateFrpmEmail(adjuster_email: str = Form(...)):
         logger.error(f"Error in generating email: {e}")
         return {"error": str(e)}
 
-os.environ["OPENAI_API_KEY"] = "sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry"
-os.environ["PINECONE_API_KEY"] = "def37dc3-c862-48be-abb6-dcc6c6a6cac0"
-
 # Initialize OpenAI language model (ChatOpenAI) and embeddings (OpenAIEmbeddings)
 llm = ChatOpenAI(
     model="gpt-4o",

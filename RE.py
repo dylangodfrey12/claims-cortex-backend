@@ -3,10 +3,6 @@ from langchain.chains import RetrievalQA
 from langchain_community.vectorstores import Pinecone
 from langchain.embeddings import OpenAIEmbeddings
 
-# Set API keys
-os.environ["OPENAI_API_KEY"] = "sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry"
-os.environ["PINECONE_API_KEY"] = "def37dc3-c862-48be-abb6-dcc6c6a6cac0"
-
 # Initialize embeddings
 embeddings = OpenAIEmbeddings()
 
@@ -20,7 +16,8 @@ try:
     # Print troubleshooting information
     print(f"Number of items in vectorstore: {len(vectorstore.similarity_search('', k=1))}")
     print(f"Retriever index: {retriever.vectorstore._index}")
-
+    print(f"OPENAI_API_KEY: {os.getenv('OPENAI_API_KEY')}")
+    print(f"PINECONE_API_KEY: {os.getenv('PINECONE_API_KEY')}")
     if len(vectorstore.similarity_search('', k=1)) == 0:
         print("The vectorstore appears to be empty. Please check if data has been added to the index.")
 except Exception as e:

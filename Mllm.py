@@ -6,6 +6,7 @@
 
 import os
 # from groq import Groq
+import config
 from openai import OpenAI
 from Mfile_upload import load_system_prompt, extract_text_from_pdf, get_pdf_path
 
@@ -17,7 +18,7 @@ class MeasurementExtractor:
         # self.client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
     
     # Initialize the OpenAI ChatCompletion client
-        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
+        self.client = OpenAI(api_key=config.OPENAI_API_KEY)
 
     
     def extract_measurements(self,property_pdf_path):

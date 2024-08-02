@@ -3,12 +3,13 @@
 # processing the output from er_llm.py and generating arguments based on the determined repair type. 
 # The script focuses on organizing the identified differences into a structured list of arguments for further processing.
 
+import config
 from openai import OpenAI
 from Mfile_upload import load_system_prompt
 
 class Argument_Selector_Is_Ss:
     def __init__(self):
-        self.client = OpenAI(api_key="sk-None-3I0ZJzDw7rLx9868ws2fT3BlbkFJ0etzJSm1IZPz1Px6Fwry")
+        self.client = OpenAI(api_key=config.OPENAI_API_KEY)
     
     def generate_arguments(self):
         
