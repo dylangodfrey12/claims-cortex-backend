@@ -37,7 +37,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-
+global_er_result = None
 class ErIcGenerator:
     def __init__(self):
         # Initialize the OpenAI ChatCompletion client
@@ -103,6 +103,8 @@ Determination (should be in double brackets):
         # Extract the assistant's message content from the response
         repair_type = response.choices[0].message.content
         self.print_to_text_file(repair_type)
+        global global_ser_result
+        global_ser_result = repair_type
         # Define the regex pattern
         pattern = r"\[\[(.*?)\]\]"
 
@@ -120,18 +122,20 @@ Determination (should be in double brackets):
     
     async def route_arguments_from_determiner(self, extracted_text, contractor_estimate, insurance_estimate):
         extracted_text = extracted_text.lower()
-        
+        result = None
         if any(phrase in extracted_text for phrase in ["full roof replacement", "roof replacement"]):
-            return await self.IcDirectiveFullReplacement(contractor_estimate, insurance_estimate, True, False)
+            result = await self.IcDirectiveFullReplacement(contractor_estimate, insurance_estimate, True, False)
         
         if any(phrase in extracted_text for phrase in ["individual shingle repairs", "individual shingle repair", "individual shingle replacement",  "shingle repairs", "shingle repair"]):
-            return await self.IcDirectiveSingleReplacement(contractor_estimate, insurance_estimate, False, None, True)
+            result = await self.IcDirectiveSingleReplacement(contractor_estimate, insurance_estimate, False, None, True)
 
         if any(phrase in extracted_text for phrase in ["individual slope repairs", "individual slope repair", "individual slope replacement", "slope repairs", "slope repair", "slope replacement"]):
-            return await self.IcDirectiveSingleReplacement(contractor_estimate, insurance_estimate, False, None, False)
+            result = await self.IcDirectiveSingleReplacement(contractor_estimate, insurance_estimate, False, None, False)
         
-        else:
-            return await self.IcDirectiveFullReplacement(contractor_estimate, insurance_estimate)
+        result = list(result)
+        result.append(extracted_text)
+        result = tuple(result)
+        return result
 
 
     async def run_and_compare_ic_determiner(self, measurements, contractor_estimate, insurance_estimate):

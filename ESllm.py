@@ -52,9 +52,10 @@ def summarize_email(Difference, summary_text, full_arguments, isSiding: bool):
         *Get straight to the point about the arguments you will make. Present them directly in the email body rather than in a bulleted list.*
 
         Content to Include:
-				### *The specific missing items that need to be argued for, as indicated by what is below:*
+				### *The specific missing items that need to be argued for, as indicated by what is below but If those missing items are None then do not list anything:*
 				{Difference}
-
+                
+                
 				### *A rough summary of the overall flow and key points of the arguments, as provided below*
 				
 				{summary_text}
@@ -66,7 +67,7 @@ def summarize_email(Difference, summary_text, full_arguments, isSiding: bool):
     
     # Send a message to the Claude 3 Opus model
     response = client.messages.create(
-        model="claude-3-opus-20240229",
+        model="claude-3-5-sonnet-20240620",
         max_tokens=1000,
         temperature=0.2,
         system=system_prompt,
