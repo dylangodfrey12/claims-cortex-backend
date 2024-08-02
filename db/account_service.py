@@ -18,13 +18,43 @@ tsql = "INSERT INTO TestSchema.Clients (Username, Password, Address, FullName, E
 with cursor.execute(tsql,'Jake','United States'):
     print ('Successfully Inserted!')
 
-def create_replace_account(account):
-    #Update Query
-    print ('Updating Location for Nikita')
-    tsql = "UPDATE dbo.Account SET Location = ? WHERE Name = ?"
-    with cursor.execute(tsql,'Sweden','Nikita'):
-        print ('Successfully Updated!')
+# Function to create the Account table if it doesn't exist
+def create_account_table():
+    create_table_sql = '''
+    IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Account')
+    CREATE TABLE dbo.Account (
+        Username VARCHAR(255) PRIMARY KEY,
+        Password VARCHAR(255),
+        Address VARCHAR(255),
+        FullName VARCHAR(255),
+        Email VARCHAR(255)
+    )
+    '''
+    cursor.execute(create_table_sql)
 
+# Function to update or insert an account
+def create_replace_account(account):
+    username, password, address, full_name, email = account
+
+    # First, try to update the account
+    update_sql = '''
+    UPDATE dbo.Account
+    SET Password = ?, Address = ?, FullName = ?, Email = ?
+    WHERE Username = ?
+    '''
+    cursor.execute(update_sql, (password, address, full_name, email, username))
+    
+    # Check if the update was successful (affected rows)
+    if cursor.rowcount == 0:
+        # If no rows were updated, insert a new account
+        insert_sql = '''
+        INSERT INTO dbo.Account (Username, Password, Address, FullName, Email)
+        VALUES (?, ?, ?, ?, ?)
+        '''
+        cursor.execute(insert_sql, (username, password, address, full_name, email))
+    
+    cnxn.commit()
+    print('Successfully updated or created the account!')
 
 #Delete Query
 # print ('Deleting user Jared')
